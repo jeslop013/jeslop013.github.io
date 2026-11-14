@@ -1,0 +1,201 @@
+<svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Humans and AI agents on a lattice playing the Prisoner's dilemma">
+<line x1="24" y1="26" x2="50" y2="26" class="sf" stroke-width="1"/>
+<line x1="24" y1="26" x2="24" y2="52" class="sf" stroke-width="1"/>
+<line x1="50" y1="26" x2="76" y2="26" class="sf" stroke-width="1"/>
+<line x1="50" y1="26" x2="50" y2="52" class="sf" stroke-width="1"/>
+<line x1="76" y1="26" x2="102" y2="26" class="sf" stroke-width="1"/>
+<line x1="76" y1="26" x2="76" y2="52" class="sf" stroke-width="1"/>
+<line x1="102" y1="26" x2="128" y2="26" class="sf" stroke-width="1"/>
+<line x1="102" y1="26" x2="102" y2="52" class="sf" stroke-width="1"/>
+<line x1="128" y1="26" x2="154" y2="26" class="sf" stroke-width="1"/>
+<line x1="128" y1="26" x2="128" y2="52" class="sf" stroke-width="1"/>
+<line x1="154" y1="26" x2="180" y2="26" class="sf" stroke-width="1"/>
+<line x1="154" y1="26" x2="154" y2="52" class="sf" stroke-width="1"/>
+<line x1="180" y1="26" x2="206" y2="26" class="sf" stroke-width="1"/>
+<line x1="180" y1="26" x2="180" y2="52" class="sf" stroke-width="1"/>
+<line x1="206" y1="26" x2="232" y2="26" class="sf" stroke-width="1"/>
+<line x1="206" y1="26" x2="206" y2="52" class="sf" stroke-width="1"/>
+<line x1="232" y1="26" x2="232" y2="52" class="sf" stroke-width="1"/>
+<line x1="24" y1="52" x2="50" y2="52" class="sf" stroke-width="1"/>
+<line x1="24" y1="52" x2="24" y2="78" class="sf" stroke-width="1"/>
+<line x1="50" y1="52" x2="76" y2="52" class="sf" stroke-width="1"/>
+<line x1="50" y1="52" x2="50" y2="78" class="sf" stroke-width="1"/>
+<line x1="76" y1="52" x2="102" y2="52" class="sf" stroke-width="1"/>
+<line x1="76" y1="52" x2="76" y2="78" class="sf" stroke-width="1"/>
+<line x1="102" y1="52" x2="128" y2="52" class="sf" stroke-width="1"/>
+<line x1="102" y1="52" x2="102" y2="78" class="sf" stroke-width="1"/>
+<line x1="128" y1="52" x2="154" y2="52" class="sf" stroke-width="1"/>
+<line x1="128" y1="52" x2="128" y2="78" class="sf" stroke-width="1"/>
+<line x1="154" y1="52" x2="180" y2="52" class="sf" stroke-width="1"/>
+<line x1="154" y1="52" x2="154" y2="78" class="sf" stroke-width="1"/>
+<line x1="180" y1="52" x2="206" y2="52" class="sf" stroke-width="1"/>
+<line x1="180" y1="52" x2="180" y2="78" class="sf" stroke-width="1"/>
+<line x1="206" y1="52" x2="232" y2="52" class="sf" stroke-width="1"/>
+<line x1="206" y1="52" x2="206" y2="78" class="sf" stroke-width="1"/>
+<line x1="232" y1="52" x2="232" y2="78" class="sf" stroke-width="1"/>
+<line x1="24" y1="78" x2="50" y2="78" class="sf" stroke-width="1"/>
+<line x1="24" y1="78" x2="24" y2="104" class="sf" stroke-width="1"/>
+<line x1="50" y1="78" x2="76" y2="78" class="sf" stroke-width="1"/>
+<line x1="50" y1="78" x2="50" y2="104" class="sf" stroke-width="1"/>
+<line x1="76" y1="78" x2="102" y2="78" class="sf" stroke-width="1"/>
+<line x1="76" y1="78" x2="76" y2="104" class="sf" stroke-width="1"/>
+<line x1="102" y1="78" x2="128" y2="78" class="sf" stroke-width="1"/>
+<line x1="102" y1="78" x2="102" y2="104" class="sf" stroke-width="1"/>
+<line x1="128" y1="78" x2="154" y2="78" class="sf" stroke-width="1"/>
+<line x1="128" y1="78" x2="128" y2="104" class="sf" stroke-width="1"/>
+<line x1="154" y1="78" x2="180" y2="78" class="sf" stroke-width="1"/>
+<line x1="154" y1="78" x2="154" y2="104" class="sf" stroke-width="1"/>
+<line x1="180" y1="78" x2="206" y2="78" class="sf" stroke-width="1"/>
+<line x1="180" y1="78" x2="180" y2="104" class="sf" stroke-width="1"/>
+<line x1="206" y1="78" x2="232" y2="78" class="sf" stroke-width="1"/>
+<line x1="206" y1="78" x2="206" y2="104" class="sf" stroke-width="1"/>
+<line x1="232" y1="78" x2="232" y2="104" class="sf" stroke-width="1"/>
+<line x1="24" y1="104" x2="50" y2="104" class="sf" stroke-width="1"/>
+<line x1="24" y1="104" x2="24" y2="130" class="sf" stroke-width="1"/>
+<line x1="50" y1="104" x2="76" y2="104" class="sf" stroke-width="1"/>
+<line x1="50" y1="104" x2="50" y2="130" class="sf" stroke-width="1"/>
+<line x1="76" y1="104" x2="102" y2="104" class="sf" stroke-width="1"/>
+<line x1="76" y1="104" x2="76" y2="130" class="sf" stroke-width="1"/>
+<line x1="102" y1="104" x2="128" y2="104" class="sf" stroke-width="1"/>
+<line x1="102" y1="104" x2="102" y2="130" class="sf" stroke-width="1"/>
+<line x1="128" y1="104" x2="154" y2="104" class="sf" stroke-width="1"/>
+<line x1="128" y1="104" x2="128" y2="130" class="sf" stroke-width="1"/>
+<line x1="154" y1="104" x2="180" y2="104" class="sf" stroke-width="1"/>
+<line x1="154" y1="104" x2="154" y2="130" class="sf" stroke-width="1"/>
+<line x1="180" y1="104" x2="206" y2="104" class="sf" stroke-width="1"/>
+<line x1="180" y1="104" x2="180" y2="130" class="sf" stroke-width="1"/>
+<line x1="206" y1="104" x2="232" y2="104" class="sf" stroke-width="1"/>
+<line x1="206" y1="104" x2="206" y2="130" class="sf" stroke-width="1"/>
+<line x1="232" y1="104" x2="232" y2="130" class="sf" stroke-width="1"/>
+<line x1="24" y1="130" x2="50" y2="130" class="sf" stroke-width="1"/>
+<line x1="24" y1="130" x2="24" y2="156" class="sf" stroke-width="1"/>
+<line x1="50" y1="130" x2="76" y2="130" class="sf" stroke-width="1"/>
+<line x1="50" y1="130" x2="50" y2="156" class="sf" stroke-width="1"/>
+<line x1="76" y1="130" x2="102" y2="130" class="sf" stroke-width="1"/>
+<line x1="76" y1="130" x2="76" y2="156" class="sf" stroke-width="1"/>
+<line x1="102" y1="130" x2="128" y2="130" class="sf" stroke-width="1"/>
+<line x1="102" y1="130" x2="102" y2="156" class="sf" stroke-width="1"/>
+<line x1="128" y1="130" x2="154" y2="130" class="sf" stroke-width="1"/>
+<line x1="128" y1="130" x2="128" y2="156" class="sf" stroke-width="1"/>
+<line x1="154" y1="130" x2="180" y2="130" class="sf" stroke-width="1"/>
+<line x1="154" y1="130" x2="154" y2="156" class="sf" stroke-width="1"/>
+<line x1="180" y1="130" x2="206" y2="130" class="sf" stroke-width="1"/>
+<line x1="180" y1="130" x2="180" y2="156" class="sf" stroke-width="1"/>
+<line x1="206" y1="130" x2="232" y2="130" class="sf" stroke-width="1"/>
+<line x1="206" y1="130" x2="206" y2="156" class="sf" stroke-width="1"/>
+<line x1="232" y1="130" x2="232" y2="156" class="sf" stroke-width="1"/>
+<line x1="24" y1="156" x2="50" y2="156" class="sf" stroke-width="1"/>
+<line x1="24" y1="156" x2="24" y2="182" class="sf" stroke-width="1"/>
+<line x1="50" y1="156" x2="76" y2="156" class="sf" stroke-width="1"/>
+<line x1="50" y1="156" x2="50" y2="182" class="sf" stroke-width="1"/>
+<line x1="76" y1="156" x2="102" y2="156" class="sf" stroke-width="1"/>
+<line x1="76" y1="156" x2="76" y2="182" class="sf" stroke-width="1"/>
+<line x1="102" y1="156" x2="128" y2="156" class="sf" stroke-width="1"/>
+<line x1="102" y1="156" x2="102" y2="182" class="sf" stroke-width="1"/>
+<line x1="128" y1="156" x2="154" y2="156" class="sf" stroke-width="1"/>
+<line x1="128" y1="156" x2="128" y2="182" class="sf" stroke-width="1"/>
+<line x1="154" y1="156" x2="180" y2="156" class="sf" stroke-width="1"/>
+<line x1="154" y1="156" x2="154" y2="182" class="sf" stroke-width="1"/>
+<line x1="180" y1="156" x2="206" y2="156" class="sf" stroke-width="1"/>
+<line x1="180" y1="156" x2="180" y2="182" class="sf" stroke-width="1"/>
+<line x1="206" y1="156" x2="232" y2="156" class="sf" stroke-width="1"/>
+<line x1="206" y1="156" x2="206" y2="182" class="sf" stroke-width="1"/>
+<line x1="232" y1="156" x2="232" y2="182" class="sf" stroke-width="1"/>
+<line x1="24" y1="182" x2="50" y2="182" class="sf" stroke-width="1"/>
+<line x1="50" y1="182" x2="76" y2="182" class="sf" stroke-width="1"/>
+<line x1="76" y1="182" x2="102" y2="182" class="sf" stroke-width="1"/>
+<line x1="102" y1="182" x2="128" y2="182" class="sf" stroke-width="1"/>
+<line x1="128" y1="182" x2="154" y2="182" class="sf" stroke-width="1"/>
+<line x1="154" y1="182" x2="180" y2="182" class="sf" stroke-width="1"/>
+<line x1="180" y1="182" x2="206" y2="182" class="sf" stroke-width="1"/>
+<line x1="206" y1="182" x2="232" y2="182" class="sf" stroke-width="1"/>
+<circle cx="24" cy="26" r="7" class="fa"/>
+<circle cx="50" cy="26" r="7" class="fa"/>
+<circle cx="76" cy="26" r="7" class="fa2"/>
+<circle cx="102" cy="26" r="7" class="fa2"/>
+<circle cx="128" cy="26" r="7" class="fa"/>
+<circle cx="154" cy="26" r="7" class="fa2"/>
+<circle cx="180" cy="26" r="7" class="fa"/>
+<rect x="198" y="18" width="16" height="16" rx="4" class="fa3"/>
+<text x="206" y="29.5" class="ft-on" text-anchor="middle">AI</text>
+<circle cx="232" cy="26" r="7" class="fa"/>
+<circle cx="24" cy="52" r="7" class="fa"/>
+<rect x="42" y="44" width="16" height="16" rx="4" class="fa3"/>
+<text x="50" y="55.5" class="ft-on" text-anchor="middle">AI</text>
+<circle cx="76" cy="52" r="7" class="fa"/>
+<circle cx="102" cy="52" r="7" class="fa"/>
+<circle cx="128" cy="52" r="7" class="fa"/>
+<circle cx="154" cy="52" r="7" class="fa"/>
+<circle cx="180" cy="52" r="7" class="fa"/>
+<circle cx="206" cy="52" r="7" class="fa"/>
+<circle cx="232" cy="52" r="7" class="fa"/>
+<circle cx="24" cy="78" r="7" class="fa2"/>
+<circle cx="50" cy="78" r="7" class="fa"/>
+<circle cx="76" cy="78" r="7" class="fa2"/>
+<circle cx="102" cy="78" r="7" class="fa2"/>
+<circle cx="128" cy="78" r="7" class="fa"/>
+<rect x="146" y="70" width="16" height="16" rx="4" class="fa3"/>
+<text x="154" y="81.5" class="ft-on" text-anchor="middle">AI</text>
+<circle cx="180" cy="78" r="7" class="fa"/>
+<circle cx="206" cy="78" r="7" class="fa"/>
+<circle cx="232" cy="78" r="7" class="fa2"/>
+<circle cx="24" cy="104" r="7" class="fa2"/>
+<circle cx="50" cy="104" r="7" class="fa"/>
+<circle cx="76" cy="104" r="7" class="fa2"/>
+<circle cx="102" cy="104" r="7" class="fa"/>
+<circle cx="128" cy="104" r="7" class="fa2"/>
+<circle cx="154" cy="104" r="7" class="fa"/>
+<circle cx="180" cy="104" r="7" class="fa"/>
+<circle cx="206" cy="104" r="7" class="fa"/>
+<circle cx="232" cy="104" r="7" class="fa2"/>
+<circle cx="24" cy="130" r="7" class="fa"/>
+<circle cx="50" cy="130" r="7" class="fa"/>
+<circle cx="76" cy="130" r="7" class="fa2"/>
+<circle cx="102" cy="130" r="7" class="fa"/>
+<rect x="120" y="122" width="16" height="16" rx="4" class="fa3"/>
+<text x="128" y="133.5" class="ft-on" text-anchor="middle">AI</text>
+<circle cx="154" cy="130" r="7" class="fa"/>
+<circle cx="180" cy="130" r="7" class="fa2"/>
+<circle cx="206" cy="130" r="7" class="fa2"/>
+<circle cx="232" cy="130" r="7" class="fa2"/>
+<circle cx="24" cy="156" r="7" class="fa2"/>
+<circle cx="50" cy="156" r="7" class="fa"/>
+<rect x="68" y="148" width="16" height="16" rx="4" class="fa3"/>
+<text x="76" y="159.5" class="ft-on" text-anchor="middle">AI</text>
+<circle cx="102" cy="156" r="7" class="fa"/>
+<circle cx="128" cy="156" r="7" class="fa"/>
+<circle cx="154" cy="156" r="7" class="fa2"/>
+<circle cx="180" cy="156" r="7" class="fa"/>
+<rect x="198" y="148" width="16" height="16" rx="4" class="fa3"/>
+<text x="206" y="159.5" class="ft-on" text-anchor="middle">AI</text>
+<circle cx="232" cy="156" r="7" class="fa2"/>
+<circle cx="24" cy="182" r="7" class="fa2"/>
+<circle cx="50" cy="182" r="7" class="fa"/>
+<circle cx="76" cy="182" r="7" class="fa"/>
+<circle cx="102" cy="182" r="7" class="fa"/>
+<circle cx="128" cy="182" r="7" class="fa2"/>
+<circle cx="154" cy="182" r="7" class="fa2"/>
+<circle cx="180" cy="182" r="7" class="fa"/>
+<circle cx="206" cy="182" r="7" class="fa"/>
+<circle cx="232" cy="182" r="7" class="fa2"/>
+<text x="322.0" y="36.0" class="ft strong" text-anchor="middle">Prisoner’s dilemma</text>
+<text x="297.0" y="50.0" class="ft" text-anchor="middle">C</text>
+<text x="347.0" y="50.0" class="ft" text-anchor="middle">D</text>
+<text x="264.0" y="83.0" class="ft" text-anchor="end">C</text>
+<text x="264.0" y="133.0" class="ft" text-anchor="end">D</text>
+<rect x="272" y="54" width="50" height="50" class="fb sf-ink" stroke-width="1"/>
+<text x="297.0" y="83.0" class="ft mono-ink" text-anchor="middle">R, R</text>
+<rect x="322" y="54" width="50" height="50" class="fb sf-ink" stroke-width="1"/>
+<text x="347.0" y="83.0" class="ft mono-ink" text-anchor="middle">S, T</text>
+<rect x="272" y="104" width="50" height="50" class="fb sf-ink" stroke-width="1"/>
+<text x="297.0" y="133.0" class="ft mono-ink" text-anchor="middle">T, S</text>
+<rect x="322" y="104" width="50" height="50" class="fb sf-ink" stroke-width="1"/>
+<text x="347.0" y="133.0" class="ft mono-ink" text-anchor="middle">P, P</text>
+<text x="322.0" y="174.0" class="ft" text-anchor="middle">T > R > P > S</text>
+<circle cx="30" cy="232" r="6" class="fa"/>
+<text x="40.0" y="236.0" class="ft" text-anchor="start">cooperate</text>
+<circle cx="118" cy="232" r="6" class="fa2"/>
+<text x="128.0" y="236.0" class="ft" text-anchor="start">defect</text>
+<rect x="186" y="225" width="14" height="14" rx="3" class="fa3"/>
+<text x="206.0" y="236.0" class="ft" text-anchor="start">AI agent</text>
+</svg>

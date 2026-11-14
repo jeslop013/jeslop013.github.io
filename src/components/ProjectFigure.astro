@@ -1,0 +1,42 @@
+---
+// Inlines an SVG from src/figures so it can follow the site's light/dark colours.
+// If you drop a PNG/JPG at public/figures/<name>.png (or .jpg/.webp), set `image` instead.
+interface Props { name: string; image?: string; alt?: string }
+const { name, image, alt = '' } = Astro.props;
+const svgs = import.meta.glob('../figures/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const raw = svgs[`../figures/${name}.svg`];
+---
+
+<div class="fig">
+  {image ? <img src={image} alt={alt} loading="lazy" /> : raw ? <Fragment set:html={raw} /> : null}
+</div>
+
+<style>
+  .fig {
+    background: var(--fig-bg);
+    border-radius: 12px;
+    padding: 10px;
+    border: 1px solid var(--line);
+  }
+  .fig :global(svg) { width: 100%; height: auto; }
+  .fig img { width: 100%; height: auto; border-radius: 8px; }
+  .fig :global(.fa) { fill: var(--accent); }
+  .fig :global(.fa2) { fill: var(--accent-2); }
+  .fig :global(.fa2-mid) { fill: var(--accent-2); opacity: 0.7; }
+  .fig :global(.fa3) { fill: var(--accent-3); }
+  .fig :global(.fi) { fill: var(--fig-ink); }
+  .fig :global(.ff) { fill: var(--fig-faint); }
+  .fig :global(.fb) { fill: var(--card); }
+  .fig :global(.fa-soft) { fill: var(--accent-soft); }
+  .fig :global(.fa2-soft) { fill: var(--accent-2-soft); }
+  .fig :global(.sa) { stroke: var(--accent); }
+  .fig :global(.sa2) { stroke: var(--accent-2); }
+  .fig :global(.sa3) { stroke: var(--accent-3); }
+  .fig :global(.si) { stroke: var(--fig-ink); }
+  .fig :global(.sf) { stroke: var(--fig-faint); }
+  .fig :global(.sf-ink) { stroke: var(--muted); }
+  .fig :global(.ft) { fill: var(--muted); font-family: var(--font-mono); font-size: 11px; }
+  .fig :global(.ft.strong) { fill: var(--fig-ink); font-weight: 500; }
+  .fig :global(.ft.mono-ink) { fill: var(--fig-ink); }
+  .fig :global(.ft-on) { fill: #fff; font-family: var(--font-mono); font-size: 8px; font-weight: 600; }
+</style>

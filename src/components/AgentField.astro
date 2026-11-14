@@ -1,0 +1,132 @@
+---
+// A tiny live agent-based model used as decoration on the home page:
+// agents hop along a random geometric network (mobility) and spread a
+// contagion when they meet (SIR). It reseeds itself when the outbreak dies out.
+---
+
+<div class="agent-field" aria-hidden="true">
+  <canvas></canvas>
+  <div class="legend mono">
+    <span><i class="s"></i>susceptible</span>
+    <span><i class="i"></i>infected</span>
+    <span><i class="r"></i>recovered</span>
+  </div>
+</div>
+
+<script>
+  const wrap = document.querySelector<HTMLDivElement>('.agent-field');
+  const canvas = wrap?.querySelector('canvas');
+  if (wrap && canvas) {
+    const ctx = canvas.getContext('2d')!;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    type Node = { x: number; y: number; nb: number[] };
+    type Agent = { from: number; to: number; t: number; speed: number; state: 0 | 1 | 2; clock: number };
+    let nodes: Node[] = [];
+    let agents: Agent[] = [];
+    let W = 0, H = 0, dpr = 1;
+    const col = { s: '', i: '', r: '', edge: '' };
+
+    const readColors = () => {
+      const cs = getComputedStyle(document.documentElement);
+      col.s = cs.getPropertyValue('--accent').trim();
+      col.i = cs.getPropertyValue('--accent-2').trim();
+      col.r = cs.getPropertyValue('--fig-faint').trim();
+      col.edge = cs.getPropertyValue('--line').trim();
+    };
+
+    const build = () => {
+      const r = wrap.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.round(Math.max(24, Math.min(70, (W * H) / 9000)));
+      nodes = Array.from({ length: n }, () => ({ x: 20 + Math.random() * (W - 40), y: 20 + Math.random() * (H - 40), nb: [] }));
+      const R = Math.sqrt((W * H) / n) * 1.45;
+      nodes.forEach((a, i) => nodes.forEach((b, j) => {
+        if (i < j && Math.hypot(a.x - b.x, a.y - b.y) < R) { a.nb.push(j); b.nb.push(i); }
+      }));
+      nodes.forEach((a, i) => { if (!a.nb.length) { let best = -1, d = 1e9; nodes.forEach((b, j) => { const dd = Math.hypot(a.x - b.x, a.y - b.y); if (j !== i && dd < d) { d = dd; best = j; } }); a.nb.push(best); nodes[best].nb.push(i); } });
+      seed();
+    };
+
+    const seed = () => {
+      const m = Math.round(nodes.length * 1.6);
+      agents = Array.from({ length: m }, () => {
+        const from = Math.floor(Math.random() * nodes.length);
+        const to = nodes[from].nb[Math.floor(Math.random() * nodes[from].nb.length)];
+        return { from, to, t: Math.random(), speed: 0.004 + Math.random() * 0.006, state: 0, clock: 0 };
+      });
+      for (let k = 0; k < 2; k++) agents[Math.floor(Math.random() * m)].state = 1;
+    };
+
+    const pos = (a: Agent) => {
+      const p = nodes[a.from], q = nodes[a.to];
+      return { x: p.x + (q.x - p.x) * a.t, y: p.y + (q.y - p.y) * a.t };
+    };
+
+    const step = () => {
+      for (const a of agents) {
+        a.t += a.speed;
+        if (a.t >= 1) {
+          a.t = 0; a.from = a.to;
+          const nb = nodes[a.from].nb;
+          a.to = nb[Math.floor(Math.random() * nb.length)];
+        }
+        if (a.state === 1 && ++a.clock > 420) a.state = 2;
+      }
+      const infected = agents.filter((a) => a.state === 1).map(pos);
+      for (const a of agents) {
+        if (a.state !== 0) continue;
+        const p = pos(a);
+        for (const q of infected) {
+          if (Math.abs(p.x - q.x) < 9 && Math.abs(p.y - q.y) < 9 && Math.random() < 0.05) { a.state = 1; a.clock = 0; break; }
+        }
+      }
+      if (!agents.some((a) => a.state === 1)) seed();
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      ctx.strokeStyle = col.edge; ctx.lineWidth = 1;
+      ctx.beginPath();
+      nodes.forEach((a, i) => a.nb.forEach((j) => { if (j > i) { ctx.moveTo(a.x, a.y); ctx.lineTo(nodes[j].x, nodes[j].y); } }));
+      ctx.stroke();
+      ctx.fillStyle = col.edge;
+      for (const n of nodes) { ctx.beginPath(); ctx.arc(n.x, n.y, 2.5, 0, 7); ctx.fill(); }
+      for (const a of agents) {
+        const p = pos(a);
+        ctx.fillStyle = a.state === 0 ? col.s : a.state === 1 ? col.i : col.r;
+        ctx.beginPath(); ctx.arc(p.x, p.y, a.state === 1 ? 3.6 : 2.8, 0, 7); ctx.fill();
+      }
+    };
+
+    let running = true;
+    const loop = () => { if (running) { step(); draw(); } requestAnimationFrame(loop); };
+
+    readColors(); build();
+    if (reduce) { for (let k = 0; k < 600; k++) step(); draw(); }
+    else loop();
+
+    new IntersectionObserver(([e]) => { running = e.isIntersecting; }).observe(wrap);
+    let rt: number | undefined;
+    addEventListener('resize', () => { clearTimeout(rt); rt = window.setTimeout(() => { build(); if (reduce) draw(); }, 200); });
+    new MutationObserver(() => { readColors(); if (reduce) draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { readColors(); if (reduce) draw(); });
+  }
+</script>
+
+<style>
+  .agent-field { position: relative; width: 100%; height: 100%; min-height: 280px; }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .legend {
+    position: absolute; right: 12px; bottom: 10px; display: flex; gap: 12px;
+    font-size: 0.68rem; color: var(--muted); background: color-mix(in srgb, var(--bg) 80%, transparent);
+    padding: 4px 10px; border-radius: 999px;
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .legend i { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+  .legend .s { background: var(--accent); }
+  .legend .i { background: var(--accent-2); }
+  .legend .r { background: var(--fig-faint); }
+</style>

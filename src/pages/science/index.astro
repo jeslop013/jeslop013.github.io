@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+
+const posts = (await getCollection('science', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Base title="Science" description="Notes, explainers and the stories behind papers: mobility, epidemics, cooperation and digital twins.">
+  <section class="container page">
+    <p class="eyebrow">Science</p>
+    <h1>Notes from the model</h1>
+    <p class="lede muted">
+      Explainers, the stories behind papers, and half-formed ideas about agent-based models, cities, epidemics,
+      cooperation and digital twins.
+    </p>
+    <PostList posts={posts} base="/science/" empty="First post coming soon." />
+  </section>
+</Base>
+
+<style>
+  .page { padding-top: 56px; max-width: 860px; }
+  .lede { font-size: 1.15rem; max-width: 60ch; margin-bottom: 24px; }
+</style>

@@ -1,0 +1,63 @@
+<svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Multilayer transport network with agents">
+<polygon points="40.0,22.0 280.0,22.0 360.0,78.0 120.0,78.0" class="fb sf" stroke-width="1"/>
+<line x1="92.8" y1="38.8" x2="145.6" y2="32.1" class="si" stroke-width="1.0" stroke-linecap="round"/>
+<line x1="145.6" y1="32.1" x2="214.4" y2="39.9" class="si" stroke-width="1.0" stroke-linecap="round"/>
+<line x1="214.4" y1="39.9" x2="290.4" y2="52.8" class="si" stroke-width="1.0" stroke-linecap="round"/>
+<line x1="92.8" y1="38.8" x2="164.8" y2="62.3" class="si" stroke-width="1.0" stroke-linecap="round"/>
+<line x1="164.8" y1="62.3" x2="232.0" y2="65.7" class="si" stroke-width="1.0" stroke-linecap="round"/>
+<line x1="232.0" y1="65.7" x2="302.4" y2="71.3" class="si" stroke-width="1.0" stroke-linecap="round"/>
+<line x1="145.6" y1="32.1" x2="164.8" y2="62.3" class="si" stroke-width="1.0" stroke-linecap="round"/>
+<line x1="214.4" y1="39.9" x2="232.0" y2="65.7" class="si" stroke-width="1.0" stroke-linecap="round"/>
+<line x1="290.4" y1="52.8" x2="302.4" y2="71.3" class="si" stroke-width="1.0" stroke-linecap="round"/>
+<line x1="164.8" y1="62.3" x2="132.0" y2="69.6" class="si" stroke-width="1.0" stroke-linecap="round"/>
+<line x1="92.8" y1="38.8" x2="132.0" y2="69.6" class="si" stroke-width="1.0" stroke-linecap="round"/>
+<line x1="145.6" y1="32.1" x2="232.0" y2="65.7" class="si" stroke-width="1.0" stroke-linecap="round"/>
+<circle cx="232.0" cy="65.7" r="2.6" class="fi"/>
+<circle cx="302.4" cy="71.3" r="2.6" class="fi"/>
+<circle cx="214.4" cy="39.9" r="2.6" class="fi"/>
+<circle cx="92.8" cy="38.8" r="2.6" class="fi"/>
+<circle cx="132.0" cy="69.6" r="2.6" class="fi"/>
+<circle cx="290.4" cy="52.8" r="2.6" class="fi"/>
+<circle cx="164.8" cy="62.3" r="2.6" class="fi"/>
+<circle cx="145.6" cy="32.1" r="2.6" class="fi"/>
+<text x="372.0" y="56.0" class="ft" text-anchor="start">road</text>
+<polygon points="40.0,98.0 280.0,98.0 360.0,154.0 120.0,154.0" class="fb sf" stroke-width="1"/>
+<line x1="92.8" y1="114.8" x2="145.6" y2="108.1" class="sa" stroke-width="2.0" stroke-linecap="round"/>
+<line x1="145.6" y1="108.1" x2="214.4" y2="115.9" class="sa" stroke-width="2.0" stroke-linecap="round"/>
+<line x1="214.4" y1="115.9" x2="290.4" y2="128.8" class="sa" stroke-width="2.0" stroke-linecap="round"/>
+<line x1="164.8" y1="138.3" x2="232.0" y2="141.7" class="sa" stroke-width="2.0" stroke-linecap="round"/>
+<line x1="232.0" y1="141.7" x2="302.4" y2="147.3" class="sa" stroke-width="2.0" stroke-linecap="round"/>
+<rect x="229.0" y="138.7" width="6" height="6" rx="1" class="fa"/>
+<rect x="299.4" y="144.3" width="6" height="6" rx="1" class="fa"/>
+<rect x="211.4" y="112.9" width="6" height="6" rx="1" class="fa"/>
+<rect x="89.8" y="111.8" width="6" height="6" rx="1" class="fa"/>
+<rect x="287.4" y="125.8" width="6" height="6" rx="1" class="fa"/>
+<rect x="161.8" y="135.3" width="6" height="6" rx="1" class="fa"/>
+<rect x="142.6" y="105.1" width="6" height="6" rx="1" class="fa"/>
+<text x="372.0" y="132.0" class="ft" text-anchor="start">bus</text>
+<polygon points="40.0,174.0 280.0,174.0 360.0,230.0 120.0,230.0" class="fb sf" stroke-width="1"/>
+<line x1="132.0" y1="221.6" x2="164.8" y2="214.3" class="sa3" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="164.8" y1="214.3" x2="232.0" y2="217.7" class="sa3" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="232.0" y1="217.7" x2="214.4" y2="191.9" class="sa3" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="214.4" y1="191.9" x2="145.6" y2="184.1" class="sa3" stroke-width="1.6" stroke-linecap="round"/>
+<circle cx="232.0" cy="217.7" r="2.6" class="fi"/>
+<circle cx="214.4" cy="191.9" r="2.6" class="fi"/>
+<circle cx="132.0" cy="221.6" r="2.6" class="fi"/>
+<circle cx="164.8" cy="214.3" r="2.6" class="fi"/>
+<circle cx="145.6" cy="184.1" r="2.6" class="fi"/>
+<text x="372.0" y="208.0" class="ft" text-anchor="start">bike</text>
+<line x1="214.4" y1="39.9" x2="214.4" y2="115.9" class="sa2" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="214.4" y1="115.9" x2="214.4" y2="191.9" class="sa2" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="164.8" y1="62.3" x2="164.8" y2="138.3" class="sa2" stroke-width="1.2" stroke-dasharray="3 3"/>
+<line x1="164.8" y1="138.3" x2="164.8" y2="214.3" class="sa2" stroke-width="1.2" stroke-dasharray="3 3"/>
+<circle cx="115.5" cy="46.2" r="3.6" class="fa2"/>
+<circle cx="141.6" cy="67.5" r="3.6" class="fa2"/>
+<circle cx="296.2" cy="61.8" r="3.6" class="fa2"/>
+<circle cx="250.1" cy="143.1" r="3.6" class="fa2"/>
+<circle cx="128.1" cy="110.3" r="3.6" class="fa2"/>
+<circle cx="243.3" cy="120.8" r="3.6" class="fa2"/>
+<circle cx="199.8" cy="216.1" r="3.6" class="fa2"/>
+<circle cx="149.2" cy="217.8" r="3.6" class="fa2"/>
+<circle cx="183.5" cy="188.4" r="3.6" class="fa2"/>
+<text x="16.0" y="250.0" class="ft" text-anchor="start">agents ● · transfers ┆</text>
+</svg>

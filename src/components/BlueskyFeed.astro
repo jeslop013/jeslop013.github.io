@@ -1,0 +1,68 @@
+---
+// Shows your latest public Bluesky posts. Loads in the visitor's browser from
+// Bluesky's public API, so new posts appear without rebuilding the site.
+// Set your handle in src/config.ts (SITE.bluesky).
+import { SITE } from '../config';
+interface Props { limit?: number }
+const { limit = 6 } = Astro.props;
+---
+
+{SITE.bluesky ? (
+  <div class="bsky" data-handle={SITE.bluesky} data-limit={limit}>
+    <p class="muted status">Loading posts from Bluesky…</p>
+    <ul class="feed"></ul>
+    <a class="btn" href={`https://bsky.app/profile/${SITE.bluesky}`} target="_blank" rel="noopener">Follow @{SITE.bluesky} on Bluesky ↗</a>
+  </div>
+) : (
+  <div class="bsky placeholder">
+    <p><strong>Bluesky feed goes here.</strong></p>
+    <p class="muted">Add your handle to <code class="mono">SITE.bluesky</code> in <code class="mono">src/config.ts</code> and your latest posts will appear here automatically.</p>
+  </div>
+)}
+
+<script>
+  const el = document.querySelector<HTMLDivElement>('.bsky[data-handle]');
+  if (el) {
+    const handle = el.dataset.handle!;
+    const limit = Number(el.dataset.limit || 6);
+    const list = el.querySelector('.feed')!;
+    const status = el.querySelector('.status')!;
+    const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+    fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${encodeURIComponent(handle)}&limit=${limit * 2}&filter=posts_no_replies`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((data) => {
+        const items = (data.feed || []).filter((f: any) => !f.reason).slice(0, limit);
+        if (!items.length) { status.textContent = 'No posts yet.'; return; }
+        status.remove();
+        for (const { post } of items) {
+          const id = post.uri.split('/').pop();
+          const date = new Date(post.record.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+          const img = post.embed?.images?.[0]?.thumb;
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="https://bsky.app/profile/${esc(handle)}/post/${esc(id)}" target="_blank" rel="noopener">
+              <span class="mono muted">${esc(date)}</span>
+              <span class="txt">${esc(post.record.text || '')}</span>
+              ${img ? `<img src="${esc(img)}" alt="" loading="lazy" />` : ''}
+              <span class="mono muted stats">♡ ${post.likeCount ?? 0} · ↻ ${post.repostCount ?? 0}</span>
+            </a>`;
+          list.appendChild(li);
+        }
+      })
+      .catch(() => { status.textContent = 'Could not load Bluesky posts right now.'; });
+  }
+</script>
+
+<style>
+  .bsky { display: grid; gap: 16px; justify-items: start; }
+  .placeholder { border: 1px dashed var(--line); border-radius: var(--radius); padding: 20px; display: block; }
+  .placeholder p { margin: 0 0 6px; }
+  .feed { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; width: 100%; }
+  .feed :global(li a) {
+    display: grid; gap: 8px; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--card); color: inherit; text-decoration: none; transition: border-color .15s;
+  }
+  .feed :global(li a:hover) { border-color: var(--accent); }
+  .feed :global(.txt) { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .feed :global(img) { border-radius: 10px; max-height: 280px; object-fit: cover; width: 100%; }
+  .feed :global(.mono) { font-size: 0.75rem; }
+</style>

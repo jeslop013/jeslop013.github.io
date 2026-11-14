@@ -1,0 +1,83 @@
+<svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Outbreak size versus mobility with a critical threshold">
+<rect x="52" y="24" width="137.8" height="188" class="fa-soft"/>
+<rect x="189.8" y="24" width="190.2" height="188" class="fa2-soft"/>
+<circle cx="200.4" cy="176.3" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="218.6" cy="149.6" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="112.6" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="312.1" cy="62.1" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="98.5" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="260.1" cy="96.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="181.9" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="256.4" cy="106.5" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="72.7" cy="207.5" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="248.7" cy="100.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="159.0" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="128.6" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="148.5" cy="211.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="266.8" cy="86.5" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="232.8" cy="118.1" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="300.6" cy="63.1" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="61.8" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="87.4" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="147.4" cy="211.6" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="276.6" cy="211.8" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="206.2" cy="172.8" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="258.5" cy="91.9" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="140.5" cy="210.3" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="368.2" cy="44.2" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="90.7" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="71.6" cy="211.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="313.4" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="292.1" cy="68.6" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="90.2" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="140.5" cy="211.3" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="370.5" cy="52.6" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="121.1" cy="207.6" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="181.3" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="376.5" cy="49.3" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="55.1" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="178.7" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="243.1" cy="115.4" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="366.6" cy="42.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="240.5" cy="111.2" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="350.0" cy="46.9" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="133.8" cy="210.6" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="360.5" cy="37.5" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="341.4" cy="55.8" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="64.7" cy="211.5" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="367.8" cy="48.4" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="247.6" cy="207.8" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="356.8" cy="43.5" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="266.4" cy="80.8" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="76.3" cy="210.8" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="297.7" cy="51.1" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="198.2" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="371.2" cy="209.3" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="344.2" cy="58.4" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="243.7" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="354.9" cy="53.9" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="63.0" cy="210.5" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="248.3" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="379.8" cy="52.7" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="293.7" cy="70.2" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="312.2" cy="72.9" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="167.4" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="337.7" cy="68.4" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="311.3" cy="71.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="177.4" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="251.7" cy="207.4" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="290.9" cy="71.4" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="293.1" cy="83.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="79.5" cy="210.4" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="298.1" cy="212.0" r="2.4" class="fi" opacity="0.35"/>
+<circle cx="281.1" cy="75.8" r="2.4" class="fi" opacity="0.35"/>
+<polyline points="52.0,212.0 53.6,212.0 55.3,212.0 56.9,212.0 58.6,212.0 60.2,212.0 61.8,212.0 63.5,212.0 65.1,212.0 66.8,212.0 68.4,212.0 70.0,212.0 71.7,212.0 73.3,212.0 75.0,212.0 76.6,212.0 78.2,212.0 79.9,212.0 81.5,212.0 83.2,212.0 84.8,212.0 86.4,212.0 88.1,212.0 89.7,212.0 91.4,212.0 93.0,212.0 94.6,212.0 96.3,212.0 97.9,212.0 99.6,212.0 101.2,212.0 102.8,212.0 104.5,212.0 106.1,212.0 107.8,212.0 109.4,212.0 111.0,212.0 112.7,212.0 114.3,212.0 116.0,212.0 117.6,212.0 119.2,212.0 120.9,212.0 122.5,212.0 124.2,212.0 125.8,212.0 127.4,212.0 129.1,212.0 130.7,212.0 132.4,212.0 134.0,212.0 135.6,212.0 137.3,212.0 138.9,212.0 140.6,212.0 142.2,212.0 143.8,212.0 145.5,212.0 147.1,212.0 148.8,212.0 150.4,212.0 152.0,212.0 153.7,212.0 155.3,212.0 157.0,212.0 158.6,212.0 160.2,212.0 161.9,212.0 163.5,212.0 165.2,212.0 166.8,212.0 168.4,212.0 170.1,212.0 171.7,212.0 173.4,212.0 175.0,212.0 176.6,212.0 178.3,212.0 179.9,212.0 181.6,212.0 183.2,212.0 184.8,212.0 186.5,212.0 188.1,212.0 189.8,212.0 191.4,207.3 193.0,202.7 194.7,198.3 196.3,194.0 198.0,189.8 199.6,185.7 201.2,181.7 202.9,177.8 204.5,174.1 206.2,170.4 207.8,166.9 209.4,163.4 211.1,160.0 212.7,156.7 214.4,153.5 216.0,150.4 217.6,147.4 219.3,144.5 220.9,141.6 222.6,138.8 224.2,136.1 225.8,133.5 227.5,130.9 229.1,128.4 230.8,126.0 232.4,123.7 234.0,121.4 235.7,119.1 237.3,117.0 239.0,114.8 240.6,112.8 242.2,110.8 243.9,108.8 245.5,106.9 247.2,105.1 248.8,103.3 250.4,101.6 252.1,99.9 253.7,98.2 255.4,96.6 257.0,95.1 258.6,93.5 260.3,92.1 261.9,90.6 263.6,89.2 265.2,87.9 266.8,86.5 268.5,85.2 270.1,84.0 271.8,82.8 273.4,81.6 275.0,80.4 276.7,79.3 278.3,78.2 280.0,77.2 281.6,76.1 283.2,75.1 284.9,74.1 286.5,73.2 288.2,72.3 289.8,71.4 291.4,70.5 293.1,69.6 294.7,68.8 296.4,68.0 298.0,67.2 299.6,66.4 301.3,65.7 302.9,65.0 304.6,64.3 306.2,63.6 307.8,62.9 309.5,62.3 311.1,61.6 312.8,61.0 314.4,60.4 316.0,59.9 317.7,59.3 319.3,58.7 321.0,58.2 322.6,57.7 324.2,57.2 325.9,56.7 327.5,56.2 329.2,55.7 330.8,55.3 332.4,54.8 334.1,54.4 335.7,54.0 337.4,53.6 339.0,53.2 340.6,52.8 342.3,52.4 343.9,52.1 345.6,51.7 347.2,51.4 348.8,51.0 350.5,50.7 352.1,50.4 353.8,50.1 355.4,49.8 357.0,49.5 358.7,49.2 360.3,48.9 362.0,48.7 363.6,48.4 365.2,48.2 366.9,47.9 368.5,47.7 370.2,47.4 371.8,47.2 373.4,47.0 375.1,46.8 376.7,46.6 378.4,46.4 380.0,46.2" fill="none" class="sa2" stroke-width="3" stroke-linejoin="round"/>
+<line x1="189.8" y1="24" x2="189.8" y2="212" class="sf-ink" stroke-width="1.2" stroke-dasharray="4 4"/>
+<line x1="52" y1="212" x2="380" y2="212" class="sf-ink" stroke-width="1.2"/>
+<line x1="52" y1="212" x2="52" y2="24" class="sf-ink" stroke-width="1.2"/>
+<text x="380.0" y="230.0" class="ft" text-anchor="end">mobility →</text>
+<text x="22" y="118.0" class="ft" text-anchor="middle" transform="rotate(-90 22 118.0)">outbreak size →</text>
+<text x="189.8" y="230.0" class="ft strong" text-anchor="middle">critical mobility</text>
+<text x="62.0" y="42.0" class="ft" text-anchor="start">contained</text>
+<text x="199.8" y="42.0" class="ft" text-anchor="start">outbreak</text>
+</svg>

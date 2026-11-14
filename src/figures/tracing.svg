@@ -1,0 +1,102 @@
+<svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Contact network across household, school, work and community settings">
+<circle cx="92" cy="80" r="56" class="fb sf" stroke-width="1"/>
+<text x="92.0" y="18.0" class="ft" text-anchor="middle">household</text>
+<circle cx="300" cy="72" r="62" class="fb sf" stroke-width="1"/>
+<text x="300.0" y="4.0" class="ft" text-anchor="middle">school</text>
+<circle cx="296" cy="190" r="62" class="fb sf" stroke-width="1"/>
+<text x="296.0" y="266.0" class="ft" text-anchor="middle">work</text>
+<circle cx="104" cy="192" r="64" class="fb sf" stroke-width="1"/>
+<text x="104.0" y="270.0" class="ft" text-anchor="middle">community</text>
+<line x1="324.6" y1="71.7" x2="301.0" y2="50.5" class="sf" stroke-width="1"/>
+<line x1="86.0" y1="212.5" x2="120.2" y2="181.1" class="sf" stroke-width="1"/>
+<line x1="65.7" y1="85.0" x2="81.5" y2="50.8" class="sf" stroke-width="1"/>
+<line x1="253.6" y1="195.0" x2="72.4" y2="187.9" class="sa2" stroke-width="2.2"/>
+<line x1="299.6" y1="233.0" x2="270.3" y2="214.9" class="sf" stroke-width="1"/>
+<line x1="301.0" y1="50.5" x2="322.6" y2="38.0" class="sf" stroke-width="1"/>
+<line x1="319.6" y1="187.2" x2="299.6" y2="233.0" class="sf" stroke-width="1"/>
+<line x1="130.8" y1="214.8" x2="86.0" y2="212.5" class="sf" stroke-width="1"/>
+<line x1="125.1" y1="81.6" x2="103.8" y2="65.5" class="sf" stroke-width="1"/>
+<line x1="270.3" y1="214.9" x2="253.6" y2="195.0" class="sf" stroke-width="1"/>
+<line x1="277.8" y1="69.6" x2="301.0" y2="50.5" class="sf" stroke-width="1"/>
+<line x1="79.8" y1="171.2" x2="105.7" y2="171.6" class="sf" stroke-width="1"/>
+<line x1="86.0" y1="212.5" x2="72.4" y2="187.9" class="sf" stroke-width="1"/>
+<line x1="286.5" y1="54.9" x2="300.1" y2="164.4" class="sf" stroke-width="1"/>
+<line x1="324.6" y1="71.7" x2="286.5" y2="54.9" class="sf" stroke-width="1"/>
+<line x1="324.6" y1="71.7" x2="304.6" y2="95.4" class="sf" stroke-width="1"/>
+<line x1="318.8" y1="223.9" x2="270.3" y2="214.9" class="sf" stroke-width="1"/>
+<line x1="111.3" y1="228.5" x2="120.2" y2="181.1" class="sf" stroke-width="1"/>
+<line x1="124.5" y1="189.1" x2="86.0" y2="212.5" class="sf" stroke-width="1"/>
+<line x1="319.6" y1="187.2" x2="318.8" y2="223.9" class="sf" stroke-width="1"/>
+<line x1="304.6" y1="95.4" x2="286.5" y2="54.9" class="sf" stroke-width="1"/>
+<line x1="124.5" y1="189.1" x2="105.7" y2="171.6" class="sf" stroke-width="1"/>
+<line x1="106.9" y1="114.7" x2="70.3" y2="110.4" class="sf" stroke-width="1"/>
+<line x1="277.8" y1="69.6" x2="286.5" y2="54.9" class="sf" stroke-width="1"/>
+<line x1="106.9" y1="114.7" x2="103.8" y2="65.5" class="sf" stroke-width="1"/>
+<line x1="267.8" y1="157.1" x2="300.1" y2="164.4" class="sf" stroke-width="1"/>
+<line x1="105.7" y1="171.6" x2="120.2" y2="181.1" class="sf" stroke-width="1"/>
+<line x1="324.6" y1="71.7" x2="323.0" y2="95.8" class="sf" stroke-width="1"/>
+<line x1="324.6" y1="71.7" x2="322.6" y2="38.0" class="sf" stroke-width="1"/>
+<line x1="111.3" y1="228.5" x2="86.0" y2="212.5" class="sf" stroke-width="1"/>
+<line x1="86.0" y1="212.5" x2="79.8" y2="171.2" class="sf" stroke-width="1"/>
+<line x1="124.5" y1="189.1" x2="79.8" y2="171.2" class="sf" stroke-width="1"/>
+<line x1="81.5" y1="50.8" x2="124.5" y2="189.1" class="sf" stroke-width="1"/>
+<line x1="319.6" y1="187.2" x2="300.1" y2="164.4" class="sf" stroke-width="1"/>
+<line x1="304.6" y1="95.4" x2="299.6" y2="233.0" class="sf" stroke-width="1"/>
+<line x1="277.8" y1="69.6" x2="322.6" y2="38.0" class="sf" stroke-width="1"/>
+<line x1="70.3" y1="110.4" x2="65.7" y2="85.0" class="sf" stroke-width="1"/>
+<line x1="70.3" y1="110.4" x2="273.0" y2="104.2" class="sa2" stroke-width="2.2"/>
+<line x1="273.0" y1="104.2" x2="253.6" y2="195.0" class="sa2" stroke-width="2.2"/>
+<line x1="125.1" y1="81.6" x2="253.6" y2="195.0" class="sf" stroke-width="1"/>
+<line x1="323.0" y1="95.8" x2="286.5" y2="54.9" class="sf" stroke-width="1"/>
+<line x1="323.0" y1="95.8" x2="304.6" y2="95.4" class="sf" stroke-width="1"/>
+<circle cx="125.1" cy="81.6" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="125.1" cy="81.6" r="3" class="fi"/>
+<circle cx="106.9" cy="114.7" r="3" class="fi"/>
+<circle cx="70.3" cy="110.4" r="4" class="fa2"/>
+<circle cx="65.7" cy="85.0" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="65.7" cy="85.0" r="3" class="fi"/>
+<circle cx="81.5" cy="50.8" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="81.5" cy="50.8" r="3" class="fi"/>
+<circle cx="103.8" cy="65.5" r="3" class="fi"/>
+<circle cx="324.6" cy="71.7" r="3" class="fi"/>
+<circle cx="323.0" cy="95.8" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="323.0" cy="95.8" r="3" class="fi"/>
+<circle cx="304.6" cy="95.4" r="3" class="fi"/>
+<circle cx="273.0" cy="104.2" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="273.0" cy="104.2" r="4" class="fa2-mid"/>
+<circle cx="277.8" cy="69.6" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="277.8" cy="69.6" r="3" class="fi"/>
+<circle cx="286.5" cy="54.9" r="3" class="fi"/>
+<circle cx="301.0" cy="50.5" r="3" class="fi"/>
+<circle cx="322.6" cy="38.0" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="322.6" cy="38.0" r="3" class="fi"/>
+<circle cx="319.6" cy="187.2" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="319.6" cy="187.2" r="3" class="fi"/>
+<circle cx="318.8" cy="223.9" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="318.8" cy="223.9" r="3" class="fi"/>
+<circle cx="299.6" cy="233.0" r="3" class="fi"/>
+<circle cx="270.3" cy="214.9" r="3" class="fi"/>
+<circle cx="253.6" cy="195.0" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="253.6" cy="195.0" r="4" class="fa2-mid"/>
+<circle cx="267.8" cy="157.1" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="267.8" cy="157.1" r="3" class="fi"/>
+<circle cx="300.1" cy="164.4" r="3" class="fi"/>
+<circle cx="311.0" cy="173.2" r="3" class="fi"/>
+<circle cx="124.5" cy="189.1" r="3" class="fi"/>
+<circle cx="130.8" cy="214.8" r="3" class="fi"/>
+<circle cx="111.3" cy="228.5" r="3" class="fi"/>
+<circle cx="86.0" cy="212.5" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="86.0" cy="212.5" r="3" class="fi"/>
+<circle cx="72.4" cy="187.9" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="72.4" cy="187.9" r="4" class="fa2-mid"/>
+<circle cx="79.8" cy="171.2" r="3" class="fi"/>
+<circle cx="105.7" cy="171.6" r="7" fill="none" class="sa" stroke-width="1.6"/>
+<circle cx="105.7" cy="171.6" r="3" class="fi"/>
+<circle cx="120.2" cy="181.1" r="3" class="fi"/>
+<circle cx="22" cy="248" r="4" class="fa2"/>
+<text x="30.0" y="252.0" class="ft" text-anchor="start">detected case</text>
+<circle cx="142" cy="248" r="6" fill="none" class="sa" stroke-width="1.6"/><circle cx="142" cy="248" r="2.6" class="fi"/>
+<text x="152.0" y="252.0" class="ft" text-anchor="start">app user</text>
+<line x1="224" y1="248" x2="244" y2="248" class="sa2" stroke-width="2.2"/>
+<text x="250.0" y="252.0" class="ft" text-anchor="start">traced contacts</text>
+</svg>

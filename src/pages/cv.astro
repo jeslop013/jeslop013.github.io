@@ -1,0 +1,170 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { SITE } from '../config';
+import { projects, publications, inPreparation, positions, education, talks, teaching, otherProjects, skills } from '../data/cv';
+
+const me = 'J. A. Moreno López';
+const boldMe = (s: string) => s.replace(me, `<strong>${me}</strong>`);
+const toc = [
+  ['projects', 'Projects'],
+  ['positions', 'Positions'],
+  ['education', 'Education'],
+  ['publications', 'Publications'],
+  ['talks', 'Talks'],
+  ['teaching', 'Teaching & outreach'],
+  ['skills', 'Skills'],
+];
+---
+
+<Base title="CV" description={`Curriculum vitae of ${SITE.name}: projects, publications, positions and talks.`}>
+  <header class="container cv-head">
+    <p class="eyebrow">Curriculum vitae</p>
+    <h1>{SITE.name}</h1>
+    <p class="lede">
+      Physicist (PhD, cum laude). I build data-driven agent-based models and digital twins of socio-technical systems
+      and quantify their uncertainty so their outputs can inform policy.
+    </p>
+    <div class="head-actions">
+      {SITE.cvPdf && <a class="btn primary" href={SITE.cvPdf} download>Download PDF</a>}
+      <a class="btn" href={SITE.links[0].href} target="_blank" rel="noopener">Google Scholar ↗</a>
+      <a class="btn" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    </div>
+    <nav class="toc" aria-label="CV sections">
+      {toc.map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
+    </nav>
+  </header>
+
+  <section class="container block" id="projects">
+    <div class="section-head">
+      <h2>Selected projects</h2>
+      <span class="muted mono">figures are schematic</span>
+    </div>
+    {projects.map((p, i) => <ProjectCard project={p} flip={i % 2 === 1} />)}
+
+    <div class="other">
+      <h3>Other projects</h3>
+      <ul>
+        {otherProjects.map((o) => <li><span>{o.name}</span><span class="muted mono">{o.where} · {o.years}</span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="container block" id="positions">
+    <h2>Positions</h2>
+    <ol class="timeline">
+      {positions.map((x) => (
+        <li><span class="yr mono">{x.years}</span><div><strong>{x.title}</strong><span class="muted">{x.where}</span>{x.note && <p>{x.note}</p>}</div></li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container block" id="education">
+    <h2>Education</h2>
+    <ol class="timeline">
+      {education.map((x) => (
+        <li><span class="yr mono">{x.years}</span><div><strong>{x.title}</strong><span class="muted">{x.where}</span>{x.note && <p>{x.note}</p>}</div></li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container block" id="publications">
+    <h2>Publications</h2>
+    <ol class="pubs">
+      {publications.map((p) => (
+        <li>
+          <span class="yr mono">{p.year}</span>
+          <div>
+            {p.doi ? <a class="pt" href={`https://doi.org/${p.doi}`} target="_blank" rel="noopener">{p.title}</a> : <span class="pt">{p.title}</span>}
+            <span class="au" set:html={boldMe(p.authors)} />
+            <span class="venue">{p.venue}{p.doi && <span class="mono muted"> · doi:{p.doi}</span>}</span>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <h3 class="sub-h">In preparation</h3>
+    <ol class="pubs prep">
+      {inPreparation.map((p) => (
+        <li><span class="yr mono">—</span><div><span class="pt">{p.title}</span><span class="au" set:html={boldMe(p.authors)} /></div></li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container block" id="talks">
+    <h2>Talks</h2>
+    <h3 class="sub-h">Invited</h3>
+    <ol class="pubs">
+      {talks.invited.map((t) => <li><span class="yr mono">{t.year}</span><div><span class="pt">{t.title}</span><span class="muted">{t.where}</span></div></li>)}
+    </ol>
+    <h3 class="sub-h">Contributed</h3>
+    <ol class="pubs">
+      {talks.contributed.map((t) => <li><span class="yr mono">{t.year}</span><div><span class="pt">{t.title}</span><span class="muted">{t.where}</span></div></li>)}
+    </ol>
+  </section>
+
+  <section class="container block" id="teaching">
+    <h2>Teaching & outreach</h2>
+    <ol class="timeline">
+      {teaching.map((x) => (
+        <li><span class="yr mono">{x.years}</span><div><strong>{x.title}</strong><span class="muted">{x.where}</span>{x.note && <p>{x.note}</p>}</div></li>
+      ))}
+      <li><span class="yr mono">2023 – 2025</span><div><strong>IFISC science videos</strong><span class="muted">Writer, director and actor</span><p>See the <a href="/variety/">Variety</a> page.</p></div></li>
+      <li><span class="yr mono">2025</span><div><strong>Radio: <em>Entre Avui i Demà</em></strong><span class="muted">Guest physicist</span><p>Episodes on the physics of the colours black, white and pink.</p></div></li>
+    </ol>
+  </section>
+
+  <section class="container block" id="skills">
+    <h2>Skills</h2>
+    <dl class="skills">
+      {skills.map((s) => (<><dt class="mono">{s.label}</dt><dd>{s.value}</dd></>))}
+    </dl>
+  </section>
+</Base>
+
+<style>
+  .cv-head { padding-top: 56px; padding-bottom: 8px; }
+  .lede { font-size: 1.15rem; max-width: 62ch; color: var(--muted); }
+  .head-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
+  .toc {
+    display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 0; border-top: 1px solid var(--line);
+  }
+  .toc a {
+    font-size: 0.85rem; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line);
+    color: var(--muted); text-decoration: none;
+  }
+  .toc a:hover { color: var(--ink); border-color: var(--accent); }
+  .block { padding-top: 48px; padding-bottom: 16px; scroll-margin-top: 70px; }
+  .block > h2 { padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 8px; }
+  #projects .section-head { padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 0; }
+  #projects .section-head span { font-size: 0.75rem; }
+
+  .other { padding: 28px 0 0; border-top: 1px solid var(--line); }
+  .other ul { list-style: none; padding: 0; margin: 0; }
+  .other li { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 0.95rem; }
+  .other li .mono { font-size: 0.78rem; }
+
+  .timeline, .pubs { list-style: none; padding: 0; margin: 0; }
+  .timeline li, .pubs li {
+    display: grid; grid-template-columns: 1fr; gap: 4px 24px; padding: 18px 0; border-bottom: 1px solid var(--line);
+  }
+  @media (min-width: 720px) {
+    .timeline li, .pubs li { grid-template-columns: 130px 1fr; }
+  }
+  .yr { font-size: 0.8rem; color: var(--accent); padding-top: 3px; }
+  .timeline div, .pubs div { display: grid; gap: 2px; }
+  .timeline p { margin: 6px 0 0; font-size: 0.93rem; }
+  .pt { font-weight: 600; line-height: 1.4; }
+  a.pt { color: var(--ink); text-decoration-color: var(--line); }
+  a.pt:hover { color: var(--accent); }
+  .au { font-size: 0.9rem; color: var(--muted); }
+  .au :global(strong) { color: var(--ink); }
+  .venue { font-style: italic; font-size: 0.92rem; }
+  .venue .mono { font-style: normal; font-size: 0.75rem; }
+  .prep .pt { font-weight: 500; }
+  .sub-h { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 28px 0 0; }
+
+  .skills { display: grid; grid-template-columns: 1fr; gap: 4px 24px; margin: 16px 0; }
+  @media (min-width: 720px) { .skills { grid-template-columns: 130px 1fr; } }
+  .skills dt { font-size: 0.8rem; color: var(--accent); padding-top: 14px; }
+  .skills dd { margin: 0; padding: 12px 0; border-bottom: 1px solid var(--line); }
+</style>
