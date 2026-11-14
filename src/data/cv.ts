@@ -1,116 +1,146 @@
 // ─────────────────────────────────────────────────────────────
 //  All CV content lives here. Edit this file to update the CV page.
-//  `figure` refers to an SVG file in src/figures/ (without .svg).
+//  Source: CV_Jesus_Moreno.pdf. Text is short on purpose (STE style).
+//  Dates: `start` and optional `end` (years). No `end` = ongoing.
 // ─────────────────────────────────────────────────────────────
+
+// Formats a date range: 2020 / 2020 – 2024 / 2024 – present
+export const span = (x: { start: number; end?: number }) =>
+  x.end === undefined ? `${x.start} – present` : x.end === x.start ? `${x.start}` : `${x.start} – ${x.end}`;
+
+// A project is current when it has no end year, or ends this year or later.
+export const isCurrent = (x: { end?: number }) => x.end === undefined || x.end >= new Date().getFullYear();
+
+// ── Research themes (front page). `figure` = file in src/figures/ without .svg.
+//    Unused figures: 'fuze', 'tracing'. Remove or reorder entries freely.
+export const themes = [
+  {
+    title: 'Urban mobility',
+    text: 'Agent-based models of how people move in cities, and of the effect of transport policy.',
+    figure: 'mimos',
+    links: [{ label: 'Next4Mob', href: '/cv/#next4mob' }],
+  },
+  {
+    title: 'Epidemics',
+    text: 'How mobility and contacts spread disease, and which interventions stop it.',
+    figure: 'critical',
+    links: [
+      { label: 'Sci. Rep. 2025', href: 'https://doi.org/10.1038/s41598-025-86759-5' },
+      { label: 'Sci. Adv. 2021', href: 'https://doi.org/10.1126/sciadv.abd8750' },
+    ],
+  },
+  {
+    title: 'Cooperation with AI',
+    text: 'Theory and experiments on how AI agents change human cooperation.',
+    figure: 'cooperation',
+    links: [
+      { label: 'ChaLueCo', href: '/cv/#chalueco' },
+      { label: 'J. R. Soc. Interface 2024', href: 'https://doi.org/10.1098/rsif.2024.0212' },
+    ],
+  },
+  {
+    title: 'Digital twins & uncertainty',
+    text: 'Civic digital twins with sensitivity and uncertainty analysis, to support policy decisions.',
+    figure: 'digitaltwin',
+    links: [
+      { label: 'BDT', href: '/cv/#bdt' },
+      { label: 'HARMONIE', href: '/cv/#harmonie' },
+    ],
+  },
+];
 
 export type Project = {
   id: string;
   title: string;
-  subtitle: string;
-  years: string;
+  start: number;
+  end?: number; // leave out while the project runs
   role: string;
   where: string;
   summary: string;
-  highlights?: string[];
-  figure: string;
-  figureCaption: string;
-  links?: { label: string; href: string }[];
-  tags: string[];
+  link?: string;
 };
 
 export const projects: Project[] = [
   {
-    id: 'mimos',
-    title: 'MiMoS',
-    subtitle: 'A microscopic mobility simulator for Valladolid',
-    years: '2024 – present',
-    role: 'Sole developer',
-    where: 'Next4Mob project · IFISC (CSIC-UIB)',
-    summary:
-      'A multimodal agent-based transport digital twin of the Valladolid area (~400,000 inhabitants), built from scratch to evaluate the city’s planned low emission zone. Agents plan daily trips, choose modes and routes, learn from experience, and converge to a stochastic user equilibrium.',
-    highlights: [
-      'MATSim-inspired co-evolutionary model: Python pre-processing, C++ core.',
-      'Discrete-event simulation of public transport (occupancy, FIFO boarding) and road traffic (queues, flow & storage capacity, gridlock detection).',
-      'Hand-assembled multimodal network: 3,849 stops and 365 itineraries across buses, trains and rental bikes, plus OSM drive and bike networks.',
-      'EMEP/EEA emissions module producing pollutant maps per road link and hour.',
-    ],
-    figure: 'mimos',
-    figureCaption: 'Agents travel through a layered city: road, bus and bike networks, with transfers between modes.',
-    links: [{ label: 'Paper in preparation', href: '' }],
-    tags: ['agent-based models', 'transport', 'digital twin', 'C++'],
-  },
-  {
-    id: 'fuze',
-    title: 'FUZE',
-    subtitle: 'Fair Urban Zones of Emissions',
-    years: '2024 – present',
-    role: 'Lead researcher',
-    where: 'IFISC (CSIC-UIB)',
-    summary:
-      'Low emission zones cut pollution where they are drawn, but who pays for them, and who benefits? FUZE uses the MiMoS co-evolutionary model to assess the impact, effectiveness and fairness of low emission zones: how trips reshuffle, where emissions move, and how costs are distributed across the population.',
-    figure: 'fuze',
-    figureCaption: 'Schematic: emissions per road link inside and around a low emission zone, where traffic can be displaced to its edges.',
-    links: [{ label: 'Talk at CCS 2025, Siena', href: '' }],
-    tags: ['low emission zones', 'fairness', 'policy'],
-  },
-  {
-    id: 'critical-mobility',
-    title: 'Critical mobility',
-    subtitle: 'Mobility thresholds for epidemic containment',
-    years: '2021 – 2025',
-    role: 'First author',
-    where: 'IFISC (CSIC-UIB)',
-    summary:
-      'Mobility restrictions are one of the bluntest tools in epidemic response. Using data-driven models of how people move, we characterise the critical level of mobility below which an outbreak can be contained, and what that means for designing proportionate interventions.',
-    figure: 'critical',
-    figureCaption: 'Schematic: outbreak size as a function of mobility, with a critical threshold separating contained and uncontained regimes.',
-    links: [{ label: 'Scientific Reports (2025)', href: 'https://doi.org/10.1038/s41598-025-86759-5' }],
-    tags: ['epidemics', 'mobility', 'phase transitions'],
-  },
-  {
-    id: 'contact-tracing',
-    title: 'Anatomy of digital contact tracing',
-    subtitle: 'Age, transmission setting, adoption and case detection',
-    years: '2020 – 2021',
-    role: 'First author',
-    where: 'IPLESP (INSERM), Paris',
-    summary:
-      'During the first COVID-19 wave, we built an agent-based model with age-structured contacts across households, schools, workplaces and the community to ask when contact-tracing apps actually help: how their effect depends on who adopts them, where transmission happens, and how many cases are detected.',
-    figure: 'tracing',
-    figureCaption: 'A contact network across settings: app users (ringed) can be notified when a detected case is traced back through shared contacts.',
-    links: [{ label: 'Science Advances (2021)', href: 'https://doi.org/10.1126/sciadv.abd8750' }],
-    tags: ['COVID-19', 'contact tracing', 'networks'],
-  },
-  {
-    id: 'cooperation-ai',
-    title: 'Humans, AIs & cooperation',
-    subtitle: 'ChaLueCo · I Chat thus I Cooperate',
-    years: '2024 – present',
+    id: 'chalueco',
+    title: 'ChaLueCo: I Chat thus I Cooperate. Humans and AIs in Complex Environments',
+    start: 2024,
     role: 'Co-Principal Investigator',
-    where: 'IFISC (CSIC-UIB) · funded by Fundación COTEC',
+    where: 'IFISC (CSIC-UIB). Funded by Fundación COTEC (20 000 €)',
     summary:
-      'Can AI agents make people cooperate more? Theoretical work shows that AIs following discriminatory or samaritan strategies can promote cooperation in one-shot Prisoner’s dilemmas. In ChaLueCo we take this to the lab: experiments that introduce conversational AI agents with diverse roles into cooperation dilemmas and measure their effect on group cooperation.',
-    figure: 'cooperation',
-    figureCaption: 'A population of humans and AI agents playing the Prisoner’s dilemma; AI strategies shape whether cooperation spreads.',
-    links: [{ label: 'J. R. Soc. Interface (2024)', href: 'https://doi.org/10.1098/rsif.2024.0212' }],
-    tags: ['game theory', 'AI', 'experiments'],
+      'AI agents now communicate with humans. We study how AI bots can increase human cooperation. We use theory and experiments.',
   },
   {
-    id: 'civic-digital-twins',
-    title: 'Civic digital twins',
-    subtitle: 'HARMONIE · Bologna Digital Twin',
-    years: '2025 – present',
+    id: 'bdt',
+    title: 'BDT: Bologna Digital Twin',
+    start: 2023,
     role: 'Researcher',
-    where: 'MoST · Fondazione Bruno Kessler',
+    where: 'MoST (FBK)',
     summary:
-      'Digital twins for cities are only as useful as their honesty about uncertainty. Within FBK’s open-source Civic Digital Twins framework, I work on the air & noise pollution twin for the Horizon Europe project HARMONIE, integrating partners’ emission, exposure, health and system-dynamics modules, and on Bologna’s digital twin, making sure the framework supports what-if scenarios, sensitivity and uncertainty analysis.',
-    figure: 'digitaltwin',
-    figureCaption: 'What-if analysis with uncertainty: a baseline and a policy scenario, each with its spread of plausible outcomes.',
-    links: [
-      { label: 'Civic Digital Twins on GitHub', href: 'https://github.com/fbk-most/civic-digital-twins' },
-      { label: 'HARMONIE', href: 'https://harmonie-project.eu/' },
-    ],
-    tags: ['digital twins', 'uncertainty', 'air quality'],
+      'The Municipality of Bologna promotes this project. The digital twin is a dynamic model of the city. Data from stakeholders and citizens feed the model. The model supports decisions on public policy.',
+    link: 'https://fondazioneiu.it/progetto/gemello-digitale/',
+  },
+  {
+    id: 'harmonie',
+    title: 'HARMONIE',
+    start: 2025,
+    role: 'Researcher',
+    where: 'MoST (FBK). EU-funded',
+    summary:
+      'HARMONIE gives cities tools to monitor and model air and noise pollution. The tools also estimate the short- and long-term health effects of urban policies.',
+    link: 'https://harmonie-project.eu/',
+  },
+  {
+    id: 'aixpa',
+    title: 'AIxPA',
+    start: 2024,
+    role: 'Researcher',
+    where: 'MoST (FBK)',
+    summary:
+      'AIxPA makes an AI solution for public administrations. It uses available data to support decisions and to make services more efficient. It obeys ethics and the law.',
+    link: 'https://sites.fbk.eu/aixpa-en/',
+  },
+  {
+    id: 'apasos',
+    title: 'APASOS: A Physics Approach to Socio-technical Systems. From Theory to Data Analysis',
+    start: 2022,
+    role: 'Researcher',
+    where: 'IFISC (CSIC-UIB)',
+    summary: 'We use mathematics, computation, data and physics to model socio-technical systems.',
+  },
+  {
+    id: 'siesta',
+    title: 'SIESTA: Secure Interactive Environments for Sensitive Data Analytics',
+    start: 2024,
+    role: 'Researcher',
+    where: 'IFISC (CSIC-UIB)',
+    summary: 'SIESTA gives tools and methods to share sensitive data safely in the European Open Science Cloud.',
+  },
+  {
+    id: 'next4mob',
+    title: 'Next4Mob: Next Generation Tools for Advanced Mobility Solutions',
+    start: 2021, end: 2025,
+    role: 'Researcher',
+    where: 'IFISC (CSIC-UIB)',
+    summary:
+      'We made urban mobility models. The main result is a tool for policy makers and transport planners. It measures the environmental and social effects of transport policies, also during rare high-impact events such as a pandemic.',
+  },
+  {
+    id: 'pacss',
+    title: 'PACSS: Physics Approach to Complexity in Socio-technical Systems',
+    start: 2020, end: 2022,
+    role: 'Researcher',
+    where: 'IFISC (CSIC-UIB)',
+    summary: 'We studied socio-technical systems with complex-systems models and large data sets.',
+  },
+  {
+    id: 'emergence-paris',
+    title: 'Emergence de la Ville de Paris',
+    start: 2020, end: 2020,
+    role: 'Intern',
+    where: 'IPLESP (INSERM)',
+    summary:
+      'CompFlu: computational study of the virological, epidemiological and sociodemographic drivers of influenza.',
   },
 ];
 
@@ -132,8 +162,8 @@ export const publications: Publication[] = [
   },
   {
     title: 'An Agent-Based Journey in Social Systems Research: Motivations & Applications',
-    authors: 'J. A. Moreno López (supervisors: J. J. Ramasco, S. Meloni)',
-    venue: 'Doctoral thesis, IFISC (CSIC-UIB)',
+    authors: 'J. A. Moreno López, J. J. Ramasco, S. Meloni',
+    venue: 'Doctoral thesis',
     year: '2025',
   },
   {
@@ -152,55 +182,62 @@ export const publications: Publication[] = [
   },
 ];
 
-export const inPreparation: Publication[] = [
-  { title: 'MiMoS: a Microscopic Mobility Simulator for urban policy evaluation', authors: 'J. A. Moreno López, J. J. Ramasco', venue: '', year: '' },
-  { title: 'Fair Urban Emission Zones (FUZE): Impact evaluation of Low Emission Zones', authors: 'J. A. Moreno López et al.', venue: '', year: '' },
-  { title: 'I Chat thus I Cooperate: the role of AI agents in human cooperation dilemmas', authors: 'J. A. Moreno López et al.', venue: '', year: '' },
-  { title: 'Duplication-divergence inspired model for growing scientific collaboration networks', authors: 'J. García-Castillo, B. Arregui-García, J. A. Moreno López, A. Tugores, J. Fernández-Gracia', venue: '', year: '' },
-];
-
 export const positions = [
-  { years: '2025 – present', title: 'Researcher', where: 'Fondazione Bruno Kessler · Modeling and Simulation of Socio-Technical Systems (MoST)', note: 'Civic digital twins, uncertainty & sensitivity analysis.' },
-  { years: '2020 – 2025', title: 'Pre-doctoral Researcher, then Research Assistant', where: 'IFISC (CSIC-UIB), Palma de Mallorca', note: 'Agent-based models of mobility, epidemics and cooperation.' },
-  { years: '2020', title: 'Intern', where: 'IPLESP (INSERM), Paris', note: 'Three months modelling digital contact tracing for COVID-19, which led to the Science Advances paper.' },
+  { start: 2025, title: 'Researcher', where: 'Fondazione Bruno Kessler', note: 'Modeling and Simulation of Socio-Technical Systems (MoST). Civic Digital Twins framework.' },
+  { start: 2024, end: 2025, title: 'Research Assistant', where: 'IFISC (CSIC-UIB)', note: '' },
+  { start: 2020, end: 2024, title: 'Pre-doctoral Researcher', where: 'IFISC (CSIC-UIB)', note: '' },
+  { start: 2020, end: 2020, title: 'Intern', where: 'IPLESP (INSERM)', note: 'Three months. Modeling and prevention of COVID-19.' },
 ];
 
 export const education = [
-  { years: '2020 – 2025', title: 'PhD in Physics, cum laude', where: 'IFISC (CSIC-UIB)', note: '“An Agent-Based Journey in Social Systems Research: Motivations & Applications”. Supervisors: José Javier Ramasco & Sandro Meloni.' },
-  { years: '2019 – 2020', title: 'M2 in Physics of Complex Systems', where: 'Université Paris Diderot · Pierre et Marie Curie · Paris-Sud/Paris-Saclay', note: '' },
-  { years: '2014 – 2019', title: 'BSc in Physics', where: 'Universidad Complutense de Madrid', note: 'Specialised in fundamental physics.' },
+  { start: 2020, end: 2025, title: 'PhD', where: 'IFISC (CSIC-UIB)', note: '“An Agent-Based Journey in Social Systems Research: Motivations & Applications”. Cum laude. Supervisors: Dr. José Javier Ramasco and Dr. Sandro Meloni.' },
+  { start: 2019, end: 2020, title: 'Master’s Degree (M2) in Physics of Complex Systems', where: 'Universities Paris Diderot, Pierre et Marie Curie, Paris-Sud/Paris-Saclay', note: '' },
+  { start: 2014, end: 2019, title: 'Undergraduate Degree in Physics (240 ECTS)', where: 'Universidad Complutense de Madrid', note: 'Specialized in Fundamental Physics.' },
 ];
 
-export const talks = {
-  invited: [
-    { year: '2025', title: 'Setting-dependent ABMs for infectious disease spreading: dynamic networks and co-evolution', where: 'Crossroads in Epi Modelling Workshop, Università Bocconi, Milan' },
-    { year: '2025', title: 'Data-driven agent-based models in epidemiology: insights on settings and transportation', where: 'Invited junior speaker, EpiNext satellite, CCS 2025, Siena' },
-  ],
-  contributed: [
-    { year: '2025', title: 'Fair Urban Zones of Emissions (FUZE): impact, effectiveness and fairness of low emission zones via a co-evolutionary ABM', where: 'CCS 2025, Siena' },
-    { year: '2024', title: 'Critical mobility in policy making for epidemic containment', where: 'CCS 2024, London & Exeter' },
-    { year: '2023', title: 'Massive agent-based models for human mobility and urban systems (poster)', where: '1st Spanish Congress on Mobility Research, Zaragoza' },
-    { year: '2023', title: 'Housing and transport: multidimensional inequalities from data and infrastructure in Madrid', where: 'CS3 2023, Santander (also CCS 2022, Palma de Mallorca)' },
-    { year: '2021', title: 'Critical interventions: mobility-based thresholds for epidemic containment', where: 'CCS 2021, Lyon' },
-  ],
-};
+export const talks = [
+  { year: '2025', kind: 'Invited', title: 'Setting-Dependent ABMs for Infectious Disease Spreading: Dynamic Networks and Co-Evolution', where: 'Crossroads in Epi Modelling Workshop, Università Bocconi, Milano' },
+  { year: '2025', kind: 'Invited junior', title: 'Data-driven agent-based models in epidemiology: insights on settings and transportation', where: 'EpiNext Satellite, CCS 2025, Siena' },
+  { year: '2025', kind: 'Oral', title: 'Fair Urban Zones of Emissions (FUZE): Assessing impact, effectiveness and fairness of low emission zones via a Co-evolutionary ABM', where: 'CCS 2025, Siena' },
+  { year: '2024', kind: 'Oral', title: 'Critical mobility in policy making for epidemic containment', where: 'CCS 2024, London & Exeter' },
+  { year: '2023', kind: 'Oral', title: 'Housing and Transport: Analysing multidimensional inequalities from data and infrastructure in Madrid', where: 'CS3 2023, Santander' },
+  { year: '2023', kind: 'Poster', title: 'Massive Agent-Based Models for Human Mobility and Urban Systems', where: '1st Spanish Congress on Mobility Research, Zaragoza' },
+  { year: '2022', kind: 'Oral', title: 'Housing and Transport: Analysing multidimensional inequalities from data and infrastructure in Madrid', where: 'CCS 2022, Palma de Mallorca' },
+  { year: '2021', kind: 'Oral', title: 'Critical Interventions: Mobility-Based Thresholds for Epidemic Containment', where: 'CCS 2021, Lyon' },
+];
 
 export const teaching = [
-  { years: '2024', title: 'MSc thesis co-supervision', where: 'IFISC', note: 'Segregation in urban systems and mobility.' },
-  { years: '2023 – 2024', title: 'Medical Physics (30 h)', where: 'Universitat de les Illes Balears', note: 'Assistant teacher, 1st-year Medicine.' },
-  { years: '2023 – 2024', title: 'Physics Fundamentals, lab (30 h)', where: 'Universitat de les Illes Balears', note: '1st-year Telematics Engineering.' },
-];
-
-export const otherProjects = [
-  { name: 'AIxPA: AI for public administrations', where: 'FBK', years: '2025 – present' },
-  { name: 'APASOS: A Physics Approach to Socio-technical Systems', where: 'IFISC', years: '2022 – 2025' },
-  { name: 'SIESTA: Secure Interactive Environments for Sensitive Data Analytics (EOSC)', where: 'IFISC', years: '2024 – 2025' },
-  { name: 'PACSS: Physics Approach to Complexity in Socio-technical Systems', where: 'IFISC', years: '2020 – 2022' },
-  { name: 'CompFlu: computational approaches to influenza', where: 'INSERM', years: '2020' },
+  { start: 2024, end: 2024, title: 'Master thesis co-supervision: Segregation in urban systems and mobility (Arnau Dolç)', where: 'Master in Physics of Complex Systems, IFISC' },
+  { start: 2023, end: 2024, title: 'Medical Physics. Assistant teacher (30 h)', where: 'Medical Degree, Universitat de les Illes Balears' },
+  { start: 2023, end: 2024, title: 'Physics Fundamentals. Lab teacher (30 h)', where: 'Telematics Engineering Degree, Universitat de les Illes Balears' },
 ];
 
 export const skills = [
-  { label: 'Programming', value: 'Python (NumPy, NetworkX, OSMnx), C++, Matlab, LaTeX' },
-  { label: 'Methods', value: 'Agent-based & discrete-event simulation, discrete choice, network science, sensitivity & uncertainty analysis, GIS/OSM data pipelines' },
   { label: 'Languages', value: 'Spanish (native), English (native), Italian (intermediate), French (beginner)' },
+  { label: 'Programming', value: 'Python, C++, LaTeX, Matlab' },
+];
+
+export const furtherEducation = [
+  { year: 'Summer 2023', title: 'Complexity72h Workshop', where: 'IFISC, Spain', note: 'Interdisciplinary workshop. Teams do a project in 72 hours.' },
+  { year: 'Summer 2022', title: 'Workshop on Quantitative Human Ecology', where: 'ICTP, Trieste (online)', note: '' },
+  { year: 'Summer 2022', title: 'NetSci School 2022', where: 'Shanghai (online)', note: 'Higher-order interactions and statistical inference.' },
+  { year: 'Summer 2022', title: 'SocioComplex 2022', where: 'IFISC, Spain', note: '' },
+  { year: 'Summer 2022', title: 'X GEFENOL Summer School', where: 'IFISC, Spain', note: '' },
+  { year: 'Summer 2017', title: 'Course in Game Theory Applied to the Analysis of Social Networks (75 h)', where: 'Faculty of Statistics, Universidad Complutense de Madrid', note: '' },
+];
+
+export const outreach = [
+  { year: '2025', title: 'IFISC Poster Party Video', note: 'Director, editor, scriptwriter and actor.', href: 'https://youtu.be/Gl34kL1da8c' },
+  { year: '2025', title: 'Entre Avui i Demà (radio show)', note: 'Three appearances: the physics of the colours black, white and pink.' },
+  { year: '2024', title: 'IFISC Poster Party Video', note: 'Leading actor and scriptwriter.', href: 'https://youtu.be/MpCZEYmDxFs' },
+  { year: '2024', title: 'Vocational Practices project', note: 'Event for high-school students. Complex systems and research.' },
+  { year: '2023', title: 'IFISC Poster Party Video', note: 'Actor.', href: 'https://youtu.be/iKNVFjsZM2g' },
+];
+
+// Front page, "Outside work" cards. From the CV Hobbies section.
+export const hobbies = [
+  { icon: '🥁', title: 'Music', text: 'Drums and percussion, live and in concerts. Also guitar and bass.' },
+  { icon: '🎾', title: 'Sports', text: 'Padel, football, volleyball.' },
+  { icon: '🎭', title: 'Acting', text: 'Voice-overs, video, impressions.' },
+  { icon: '📻', title: 'Outreach', text: 'Science videos for IFISC. Radio guest on Entre Avui i Demà.' },
 ];

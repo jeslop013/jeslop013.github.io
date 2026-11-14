@@ -8,20 +8,29 @@ interface Props {
   description?: string;
   tags: string[];
   section: { label: string; href: string };
+  lang?: 'en' | 'es';
+  // Link to the same post in the other language, if it exists.
+  translation?: { lang: 'en' | 'es'; href: string };
 }
-const { title, date, description, tags, section } = Astro.props;
-const fmt = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const { title, date, description, tags, section, lang = 'en', translation } = Astro.props;
+const fmt = date.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 
-<Base title={title} description={description}>
-  <article class="container post">
-    <header>
-      <a class="back mono" href={section.href}>← {section.label}</a>
-      <time class="mono muted" datetime={date.toISOString()}>{fmt}</time>
-      <h1>{title}</h1>
-      {description && <p class="lede muted">{description}</p>}
-      {tags.length > 0 && <div class="tags">{tags.map((t) => <span class="tag">{t}</span>)}</div>}
-    </header>
+<Base title={title} description={description} lang={lang}>
+  <article>
+    <p class="top small">
+      <a href={section.href}>← {section.label}</a>
+      {translation && (
+        <span class="langs">
+          {lang === 'en' ? <strong>English</strong> : <a href={translation.href} hreflang="en">English</a>}
+          {' | '}
+          {lang === 'es' ? <strong>Español</strong> : <a href={translation.href} hreflang="es">Español</a>}
+        </span>
+      )}
+    </p>
+    <h1>{title}</h1>
+    <p class="muted small"><time datetime={date.toISOString()}>{fmt}</time></p>
+    {tags.length > 0 && <p class="pills">{tags.map((t) => <span class="tag">{t}</span>)}</p>}
     <div class="prose">
       <slot />
     </div>
@@ -29,13 +38,6 @@ const fmt = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', ye
 </Base>
 
 <style>
-  .post { padding-top: 40px; padding-bottom: 40px; }
-  .post header, .post .prose { max-width: var(--prose); margin-left: auto; margin-right: auto; }
-  .back { display: inline-block; margin-bottom: 32px; font-size: 0.82rem; color: var(--muted); text-decoration: none; }
-  .back:hover { color: var(--accent); }
-  header { margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
-  time { font-size: 0.82rem; }
-  h1 { margin-top: 10px; }
-  .lede { font-size: 1.15rem; }
-  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .pills { margin-bottom: 24px; }
 </style>

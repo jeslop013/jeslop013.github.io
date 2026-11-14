@@ -1,132 +1,334 @@
 ---
-// A tiny live agent-based model used as decoration on the home page:
-// agents hop along a random geometric network (mobility) and spread a
-// contagion when they meet (SIR). It reseeds itself when the outbreak dies out.
+// A toy metro on the home page: commuters travel between random stations, and an SIRS
+// infection spreads on trains and platforms. Beside it, two square live charts count new
+// infections per metro line: on platforms and on trains. The logic is in src/lib/metro-sim.js.
 ---
 
-<div class="agent-field" aria-hidden="true">
-  <canvas></canvas>
-  <div class="legend mono">
-    <span><i class="s"></i>susceptible</span>
-    <span><i class="i"></i>infected</span>
-    <span><i class="r"></i>recovered</span>
+<div class="metro">
+  <div class="agent-field">
+    <canvas class="map" aria-hidden="true"></canvas>
+    <div class="controls">
+      <button class="regen" type="button">Regenerate network</button>
+      <div class="speed" role="group" aria-label="Simulation speed">
+        <button class="slower" type="button" aria-label="Slower" title="Slower (← key)">◀</button>
+        <span class="rate" aria-live="polite">1×</span>
+        <button class="faster" type="button" aria-label="Faster" title="Faster (→ key)">▶</button>
+      </div>
+    </div>
+    <div class="legend mono" aria-hidden="true">
+      <span><i class="s"></i>susceptible</span>
+      <span><i class="i"></i>infected</span>
+      <span><i class="r"></i>recovered</span>
+    </div>
   </div>
+
+  <div class="charts">
+    <figure>
+      <figcaption>Infections at stations</figcaption>
+      <div class="plot"><canvas class="chart" data-kind="platform" role="img" aria-label="Live chart: new infections at stations, last 3 minutes"></canvas><div class="tip" hidden></div></div>
+    </figure>
+    <figure>
+      <figcaption>Infections on lines</figcaption>
+      <div class="plot"><canvas class="chart" data-kind="train" role="img" aria-label="Live chart: new infections on trains, per metro line, last 3 minutes"></canvas><div class="tip" hidden></div></div>
+    </figure>
+  </div>
+  <p class="chart-legend small muted">
+    <span class="keys"></span>
+  </p>
 </div>
 
 <script>
-  const wrap = document.querySelector<HTMLDivElement>('.agent-field');
-  const canvas = wrap?.querySelector('canvas');
-  if (wrap && canvas) {
+  import { createSim } from '../lib/metro-sim.js';
+
+  const root = document.querySelector<HTMLDivElement>('.metro');
+  const wrap = root?.querySelector<HTMLDivElement>('.agent-field');
+  const canvas = wrap?.querySelector<HTMLCanvasElement>('canvas.map');
+  if (root && wrap && canvas) {
     const ctx = canvas.getContext('2d')!;
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    type Node = { x: number; y: number; nb: number[] };
-    type Agent = { from: number; to: number; t: number; speed: number; state: 0 | 1 | 2; clock: number };
-    let nodes: Node[] = [];
-    let agents: Agent[] = [];
-    let W = 0, H = 0, dpr = 1;
-    const col = { s: '', i: '', r: '', edge: '' };
+    let sim: ReturnType<typeof createSim>;
+    let W = 0, H = 0, topPad = 0;
+    const col = { s: '', i: '', r: '', ink: '', bg: '', text: '', grid: '', series: [] as string[] };
 
     const readColors = () => {
       const cs = getComputedStyle(document.documentElement);
-      col.s = cs.getPropertyValue('--accent').trim();
-      col.i = cs.getPropertyValue('--accent-2').trim();
-      col.r = cs.getPropertyValue('--fig-faint').trim();
-      col.edge = cs.getPropertyValue('--line').trim();
+      const v = (n: string) => cs.getPropertyValue(n).trim();
+      col.s = v('--accent'); col.i = v('--accent-2'); col.r = v('--fig-faint');
+      col.ink = v('--muted'); col.bg = v('--bg'); col.text = v('--muted'); col.grid = v('--line');
+      col.series = [v('--series-1'), v('--series-2'), v('--series-3')];
+    };
+
+    const sizeCanvas = (c: HTMLCanvasElement) => {
+      const r = c.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      c.width = r.width * dpr; c.height = r.height * dpr;
+      c.getContext('2d')!.setTransform(dpr, 0, 0, dpr, 0, 0);
+      return r;
+    };
+
+    // ── Legend keys: one dash sample per line (same dashes as the map)
+    const renderKeys = () => {
+      const keys = root.querySelector('.keys')!;
+      keys.innerHTML = '<span>Lines:</span>' + sim.lines.map((ln, i) =>
+        `<span class="key"><svg width="26" height="8" aria-hidden="true"><line x1="1" y1="4" x2="25" y2="4" stroke="var(--series-${(i % 3) + 1})" stroke-width="2" stroke-dasharray="${ln.dash.join(' ')}"/></svg>Line ${i + 1}</span>`).join('');
     };
 
     const build = () => {
-      const r = wrap.getBoundingClientRect();
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const r = sizeCanvas(canvas);
       W = r.width; H = r.height;
-      canvas.width = W * dpr; canvas.height = H * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = Math.round(Math.max(24, Math.min(70, (W * H) / 9000)));
-      nodes = Array.from({ length: n }, () => ({ x: 20 + Math.random() * (W - 40), y: 20 + Math.random() * (H - 40), nb: [] }));
-      const R = Math.sqrt((W * H) / n) * 1.45;
-      nodes.forEach((a, i) => nodes.forEach((b, j) => {
-        if (i < j && Math.hypot(a.x - b.x, a.y - b.y) < R) { a.nb.push(j); b.nb.push(i); }
-      }));
-      nodes.forEach((a, i) => { if (!a.nb.length) { let best = -1, d = 1e9; nodes.forEach((b, j) => { const dd = Math.hypot(a.x - b.x, a.y - b.y); if (j !== i && dd < d) { d = dd; best = j; } }); a.nb.push(best); nodes[best].nb.push(i); } });
-      seed();
+      // keep strips free for the legend (bottom) and, on narrow screens, the buttons (top)
+      topPad = matchMedia('(max-width: 760px)').matches ? 32 : 0;
+      sim = createSim(W, H - 24 - topPad);
+      if (reduce) for (let k = 0; k < 12600; k++) sim.step(); // fill the 3 min chart window
+      renderKeys();
     };
 
-    const seed = () => {
-      const m = Math.round(nodes.length * 1.6);
-      agents = Array.from({ length: m }, () => {
-        const from = Math.floor(Math.random() * nodes.length);
-        const to = nodes[from].nb[Math.floor(Math.random() * nodes[from].nb.length)];
-        return { from, to, t: Math.random(), speed: 0.004 + Math.random() * 0.006, state: 0, clock: 0 };
-      });
-      for (let k = 0; k < 2; k++) agents[Math.floor(Math.random() * m)].state = 1;
-    };
+    const epiCol = (e: number) => (e === 0 ? col.s : e === 1 ? col.i : col.r);
+    const dot = (x: number, y: number, r: number) => { ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); };
 
-    const pos = (a: Agent) => {
-      const p = nodes[a.from], q = nodes[a.to];
-      return { x: p.x + (q.x - p.x) * a.t, y: p.y + (q.y - p.y) * a.t };
-    };
-
-    const step = () => {
-      for (const a of agents) {
-        a.t += a.speed;
-        if (a.t >= 1) {
-          a.t = 0; a.from = a.to;
-          const nb = nodes[a.from].nb;
-          a.to = nb[Math.floor(Math.random() * nb.length)];
-        }
-        if (a.state === 1 && ++a.clock > 420) a.state = 2;
-      }
-      const infected = agents.filter((a) => a.state === 1).map(pos);
-      for (const a of agents) {
-        if (a.state !== 0) continue;
-        const p = pos(a);
-        for (const q of infected) {
-          if (Math.abs(p.x - q.x) < 9 && Math.abs(p.y - q.y) < 9 && Math.random() < 0.05) { a.state = 1; a.clock = 0; break; }
-        }
-      }
-      if (!agents.some((a) => a.state === 1)) seed();
-    };
-
-    const draw = () => {
+    const drawMap = () => {
+      const { pts, lines, linesAt, onNet, trains, people } = sim;
       ctx.clearRect(0, 0, W, H);
-      ctx.strokeStyle = col.edge; ctx.lineWidth = 1;
-      ctx.beginPath();
-      nodes.forEach((a, i) => a.nb.forEach((j) => { if (j > i) { ctx.moveTo(a.x, a.y); ctx.lineTo(nodes[j].x, nodes[j].y); } }));
-      ctx.stroke();
-      ctx.fillStyle = col.edge;
-      for (const n of nodes) { ctx.beginPath(); ctx.arc(n.x, n.y, 2.5, 0, 7); ctx.fill(); }
-      for (const a of agents) {
-        const p = pos(a);
-        ctx.fillStyle = a.state === 0 ? col.s : a.state === 1 ? col.i : col.r;
-        ctx.beginPath(); ctx.arc(p.x, p.y, a.state === 1 ? 3.6 : 2.8, 0, 7); ctx.fill();
+      ctx.save(); ctx.translate(0, topPad);
+      ctx.strokeStyle = col.ink; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.globalAlpha = 0.6;
+      for (const ln of lines) {
+        ctx.setLineDash(ln.dash);
+        ctx.beginPath();
+        ln.stations.forEach((s, i) => (i ? ctx.lineTo(pts[s].x, pts[s].y) : ctx.moveTo(pts[s].x, pts[s].y)));
+        ctx.stroke();
       }
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 0.35;
+      for (const p of people) if (p.state === 'act') { ctx.fillStyle = epiCol(p.epi); dot(pts[p.at].x + p.jx, pts[p.at].y + p.jy, 2); }
+      ctx.globalAlpha = 1;
+      for (const s of onNet) {
+        ctx.fillStyle = col.bg; ctx.strokeStyle = col.ink; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(pts[s].x, pts[s].y, linesAt[s].length > 1 ? 6 : 4.5, 0, 7); ctx.fill(); ctx.stroke();
+      }
+      const count = new Map<number, number>();
+      for (const p of people) {
+        if (p.state !== 'wait') continue;
+        const i = count.get(p.at) || 0; count.set(p.at, i + 1);
+        const ring = Math.floor(i / 10), a = (i % 10) * 0.628 + ring * 0.3, r = 10 + ring * 4.5;
+        ctx.fillStyle = epiCol(p.epi); dot(pts[p.at].x + Math.cos(a) * r, pts[p.at].y + Math.sin(a) * r, 2.2);
+      }
+      for (const tr of trains) {
+        const { x, y, ang } = sim.trainXY(tr);
+        ctx.save(); ctx.translate(x, y); ctx.rotate(ang);
+        ctx.fillStyle = col.bg; ctx.strokeStyle = col.ink; ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.roundRect(-10, -5, 20, 10, 2); ctx.fill(); ctx.stroke();
+        tr.onboard.forEach((pid, k) => { ctx.fillStyle = epiCol(people[pid].epi); dot(-6 + (k % 3) * 6, -2.2 + Math.floor(k / 3) * 4.4, 1.7); });
+        ctx.restore();
+      }
+      ctx.restore();
     };
 
-    let running = true;
-    const loop = () => { if (running) { step(); draw(); } requestAnimationFrame(loop); };
+    // ── Charts: trailing 30 s sums (15 bins of 2 s), last 90 points (3 min)
+    const WINDOW = 15, SHOW = 90;
+    type Kind = 'platform' | 'train';
+    const series = (kind: Kind) => {
+      const bins = [...sim.history, sim.current()];
+      const nSeries = bins[0][kind].length; // trains: one per line; platforms: one total
+      const out = Array.from({ length: nSeries }, () => [] as number[]);
+      for (let e = Math.max(1, bins.length - SHOW); e <= bins.length; e++) {
+        for (let li = 0; li < nSeries; li++) {
+          let sum = 0;
+          for (let b = Math.max(0, e - WINDOW); b < e; b++) sum += bins[b][kind][li];
+          out[li].push(sum);
+        }
+      }
+      return out;
+    };
 
-    readColors(); build();
-    if (reduce) { for (let k = 0; k < 600; k++) step(); draw(); }
-    else loop();
+    const charts = [...root.querySelectorAll<HTMLCanvasElement>('canvas.chart')].map((c) => ({
+      c, ctx: c.getContext('2d')!, kind: c.dataset.kind as Kind, w: 0, h: 0,
+      tip: c.parentElement!.querySelector<HTMLDivElement>('.tip')!, hover: -1 as number,
+    }));
+    const sizeCharts = () => charts.forEach((ch) => { const r = sizeCanvas(ch.c); ch.w = r.width; ch.h = r.height; });
 
-    new IntersectionObserver(([e]) => { running = e.isIntersecting; }).observe(wrap);
-    let rt: number | undefined;
-    addEventListener('resize', () => { clearTimeout(rt); rt = window.setTimeout(() => { build(); if (reduce) draw(); }, 200); });
-    new MutationObserver(() => { readColors(); if (reduce) draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { readColors(); if (reduce) draw(); });
+    const M = { l: 22, r: 22, t: 6, b: 4 };
+    const drawCharts = () => {
+      const data = charts.map((ch) => series(ch.kind));
+      // shared y-scale across both charts, so the two places can be compared
+      const max = Math.max(4, ...data.flat(2));
+      const top = Math.ceil(max / 2) * 2;
+      charts.forEach((ch, ci) => {
+        const g = ch.ctx, { w, h } = ch, pw = w - M.l - M.r, ph = h - M.t - M.b;
+        const lines = data[ci], n = Math.max(1, SHOW - 1);
+        const x = (i: number, len: number) => M.l + pw - (len - 1 - i) * (pw / n);
+        const y = (v: number) => M.t + ph - (v / top) * ph;
+        g.clearRect(0, 0, w, h);
+        g.font = '10px Roboto, system-ui, sans-serif'; g.fillStyle = col.text; g.textBaseline = 'middle';
+        // grid + y labels (0, half, top)
+        g.strokeStyle = col.grid; g.lineWidth = 1;
+        [0, top / 2, top].forEach((v) => {
+          g.beginPath(); g.moveTo(M.l, Math.round(y(v)) + 0.5); g.lineTo(M.l + pw, Math.round(y(v)) + 0.5); g.stroke();
+          g.textAlign = 'right'; g.fillText(String(v), M.l - 6, y(v));
+        });
+        // series: infection colour, line identity by dash
+        g.lineWidth = 2; g.lineJoin = 'round'; g.lineCap = 'round';
+        const ends: { y: number; label: string }[] = [];
+        lines.forEach((pts, li) => {
+          if (!pts.length) return;
+          const single = lines.length === 1;
+          // platforms: one total in the infection colour; trains: one colour + dash per line
+          g.strokeStyle = single ? col.i : col.series[li % col.series.length];
+          g.setLineDash(single ? [] : sim.lines[li].dash);
+          g.beginPath();
+          pts.forEach((v, i) => (i ? g.lineTo(x(i, pts.length), y(v)) : g.moveTo(x(i, pts.length), y(v))));
+          g.stroke();
+          if (!single) ends.push({ y: y(pts[pts.length - 1]), label: `L${li + 1}` });
+        });
+        g.setLineDash([]);
+        // direct labels at the right end, nudged apart
+        // stack from the bottom up, so labels at zero do not overlap
+        ends.sort((a, b) => b.y - a.y);
+        for (let i = 1; i < ends.length; i++) if (ends[i - 1].y - ends[i].y < 10) ends[i].y = ends[i - 1].y - 10;
+        g.fillStyle = col.text; g.textAlign = 'left'; g.textBaseline = 'middle';
+        ends.forEach((e) => g.fillText(e.label, M.l + pw + 5, e.y));
+        // hover: crosshair + tooltip
+        const len = lines[0]?.length ?? 0;
+        if (ch.hover >= 0 && len) {
+          const i = Math.max(0, Math.min(len - 1, Math.round(len - 1 - (M.l + pw - ch.hover) / (pw / n))));
+          const hx = x(i, len);
+          g.strokeStyle = col.text; g.lineWidth = 1;
+          g.beginPath(); g.moveTo(Math.round(hx) + 0.5, M.t); g.lineTo(Math.round(hx) + 0.5, M.t + ph); g.stroke();
+          const ago = Math.round((len - 1 - i) * 2);
+          ch.tip.innerHTML = `<strong>${ago ? `${ago} s ago` : 'now'}</strong>` +
+            (lines.length === 1 ? `<span>All lines: ${lines[0][i]}</span>` : lines.map((p, li) => `<span>Line ${li + 1}: ${p[i]}</span>`).join(''));
+          ch.tip.hidden = false;
+          ch.tip.style.left = `${Math.min(hx + 8, w - ch.tip.offsetWidth - 4)}px`;
+        } else ch.tip.hidden = true;
+      });
+    };
+
+    charts.forEach((ch) => {
+      ch.c.addEventListener('pointermove', (e) => { ch.hover = e.offsetX; if (reduce) drawCharts(); });
+      ch.c.addEventListener('pointerleave', () => { ch.hover = -1; if (reduce) drawCharts(); });
+    });
+
+    const draw = () => { drawMap(); drawCharts(); };
+    // Speed: simulation steps per frame. Fractional speeds step on some frames only.
+    const SPEEDS = [0.25, 0.5, 1, 2, 4];
+    let running = true, speedIdx = 2, acc = 0;
+    const loop = () => {
+      if (running) {
+        acc += SPEEDS[speedIdx];
+        while (acc >= 1) { sim.step(); acc -= 1; }
+        draw();
+      }
+      requestAnimationFrame(loop);
+    };
+    const speedBox = wrap.querySelector<HTMLDivElement>('.speed')!;
+    const slower = speedBox.querySelector<HTMLButtonElement>('.slower')!;
+    const faster = speedBox.querySelector<HTMLButtonElement>('.faster')!;
+    const rate = speedBox.querySelector<HTMLSpanElement>('.rate')!;
+    const setSpeed = (i: number) => {
+      speedIdx = Math.max(0, Math.min(SPEEDS.length - 1, i));
+      const v = SPEEDS[speedIdx];
+      rate.textContent = `${v < 1 ? (v === 0.5 ? '½' : '¼') : v}×`;
+      slower.disabled = speedIdx === 0;
+      faster.disabled = speedIdx === SPEEDS.length - 1;
+    };
+    setSpeed(speedIdx);
+    if (reduce) speedBox.hidden = true;
+    slower.addEventListener('click', () => setSpeed(speedIdx - 1));
+    faster.addEventListener('click', () => setSpeed(speedIdx + 1));
+    // Keyboard: ← slower, → faster, while the animation is on screen (not while typing).
+    addEventListener('keydown', (e) => {
+      if (reduce || !running || e.altKey || e.ctrlKey || e.metaKey) return;
+      const t = e.target as HTMLElement;
+      if (t.closest('input, textarea, select, [contenteditable="true"]')) return;
+      if (e.key === 'ArrowRight') { setSpeed(speedIdx + 1); e.preventDefault(); }
+      else if (e.key === 'ArrowLeft') { setSpeed(speedIdx - 1); e.preventDefault(); }
+    });
+
+    readColors(); build(); sizeCharts();
+    if (reduce) draw(); else loop();
+
+    wrap.querySelector('.regen')?.addEventListener('click', () => { build(); if (reduce) draw(); });
+    new IntersectionObserver(([e]) => { running = e.isIntersecting; }).observe(root);
+    let rt: number | undefined, lastW = W;
+    addEventListener('resize', () => {
+      clearTimeout(rt);
+      // rebuild only when the width changes (mobile browsers fire resize on scroll)
+      rt = window.setTimeout(() => {
+        if (Math.abs(wrap.getBoundingClientRect().width - lastW) > 1) { build(); lastW = W; }
+        sizeCharts(); if (reduce) draw();
+      }, 200);
+    });
+    const recolor = () => { readColors(); if (reduce) draw(); };
+    new MutationObserver(recolor).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', recolor);
   }
 </script>
 
 <style>
-  .agent-field { position: relative; width: 100%; height: 100%; min-height: 280px; }
-  canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  /* One rectangle: map on the left, two square charts stacked on the right. */
+  .metro {
+    --h: clamp(300px, 45vw, 380px); --gap: 10px; --side: calc((var(--h) - var(--gap)) / 2);
+    display: grid; gap: var(--gap);
+    grid-template-columns: minmax(0, 1fr) var(--side);
+    grid-template-rows: var(--side) var(--side) auto;
+  }
+  .agent-field {
+    position: relative; grid-row: 1 / span 2;
+    border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+  }
+  canvas.map { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .controls { position: absolute; left: 12px; bottom: 8px; z-index: 1; display: flex; gap: 6px; }
+  .controls button {
+    font: inherit; font-size: 0.75rem; color: var(--ink); cursor: pointer;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 3px 10px;
+  }
+  .controls button:hover { border-color: var(--muted); }
+  .controls button:disabled { opacity: 0.4; cursor: default; }
+  .controls button:disabled:hover { border-color: var(--line); }
+  .speed { display: inline-flex; align-items: center; gap: 4px; }
+  .speed[hidden] { display: none; }
+  .speed button { padding: 3px 7px; font-size: 0.65rem; }
+  .rate {
+    font-size: 0.75rem; min-width: 2.2em; text-align: center; font-variant-numeric: tabular-nums;
+    background: color-mix(in srgb, var(--bg) 85%, transparent); border-radius: var(--radius); padding: 1px 2px;
+  }
   .legend {
-    position: absolute; right: 12px; bottom: 10px; display: flex; gap: 12px;
+    position: absolute; right: 12px; bottom: 8px; display: flex; gap: 12px;
     font-size: 0.68rem; color: var(--muted); background: color-mix(in srgb, var(--bg) 80%, transparent);
     padding: 4px 10px; border-radius: 999px;
   }
+  @media (max-width: 760px) { .controls { bottom: auto; top: 8px; } }
   .legend span { display: inline-flex; align-items: center; gap: 5px; }
   .legend i { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
   .legend .s { background: var(--accent); }
   .legend .i { background: var(--accent-2); }
   .legend .r { background: var(--fig-faint); }
+
+  .charts { display: contents; }
+  .charts figure {
+    margin: 0; min-width: 0; display: flex; flex-direction: column;
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 6px 2px;
+  }
+  .charts figcaption { font-size: 0.75rem; color: var(--muted); padding-left: 2px; }
+  .plot { position: relative; flex: 1; min-height: 0; }
+  canvas.chart { position: absolute; inset: 0; width: 100%; height: 100%; cursor: crosshair; touch-action: pan-y; }
+  .tip {
+    position: absolute; top: 4px; pointer-events: none; display: grid; gap: 1px; z-index: 1;
+    font-size: 0.72rem; line-height: 1.3; padding: 4px 8px; white-space: nowrap;
+    background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
+  }
+  .tip[hidden] { display: none; }
+  .chart-legend {
+    grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: flex-end;
+    gap: 6px 16px; margin: 0;
+  }
+  .chart-legend .mono { font-size: 0.75rem; }
+  .keys { display: inline-flex; gap: 14px; }
+  .keys :global(.key) { display: inline-flex; align-items: center; gap: 5px; }
+
+  /* Phones: map full width, the two squares side by side under it. */
+  @media (max-width: 600px) {
+    .metro { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .agent-field { grid-column: 1 / -1; grid-row: auto; height: clamp(280px, 80vw, 340px); }
+    .charts figure { aspect-ratio: 1; }
+  }
 </style>

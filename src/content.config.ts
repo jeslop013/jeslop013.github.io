@@ -9,6 +9,7 @@ const postSchema = z.object({
   description: z.string().optional(),
   tags: z.array(z.string()).default([]),
   draft: z.boolean().default(false), // true = hidden from the live site
+  short: z.boolean().default(false), // Variety only: true = show the full text in the list
 });
 
 const science = defineCollection({

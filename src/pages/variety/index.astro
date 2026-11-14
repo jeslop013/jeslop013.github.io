@@ -1,95 +1,36 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import PostList from '../../components/PostList.astro';
-import BlueskyFeed from '../../components/BlueskyFeed.astro';
 
+// Loose feed. Posts with `short: true` show their full text here.
+// Other posts show title + description and link to their own page.
 const posts = (await getCollection('variety', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-const videos = [
-  { id: 'Gl34kL1da8c', year: '2025', title: 'IFISC Poster Party video', role: 'Director, editor, scriptwriter & actor' },
-  { id: 'MpCZEYmDxFs', year: '2024', title: 'IFISC Poster Party video', role: 'Leading actor & scriptwriter' },
-  { id: 'iKNVFjsZM2g', year: '2023', title: 'IFISC Poster Party video', role: 'Actor' },
-];
-
-const interests = [
-  { icon: '🥁', title: 'Music', text: 'Drums and percussion, played live and in concerts. Some guitar and bass too.' },
-  { icon: '🎙️', title: 'Acting & voice', text: 'Voice-overs, video and impressions. Also the reason the science videos exist.' },
-  { icon: '📻', title: 'Radio', text: 'Guest physicist on Entre Avui i Demà, explaining the physics of black, white and pink.' },
-  { icon: '🎾', title: 'Sports', text: 'Padel, football and volleyball.' },
-];
+const items = await Promise.all(
+  posts.map(async (p) => ({ post: p, Content: p.data.short ? (await render(p)).Content : null })),
+);
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 ---
 
-<Base title="Variety" description="Everything that isn't a paper: music, science outreach, videos and short thoughts.">
-  <section class="container page">
-    <p class="eyebrow">Variety</p>
-    <h1>Everything else</h1>
-    <p class="lede muted">Music, outreach, videos, and short thoughts. The non-paper side of things.</p>
+<Base title="Variety" description="Thoughts about whatever.">
+  <h1>Variety</h1>
+  <p class="muted">Thoughts. Not always about science.</p>
 
-    <div class="cards">
-      {interests.map((i) => (
-        <div class="card">
-          <span class="icon" aria-hidden="true">{i.icon}</span>
-          <h3>{i.title}</h3>
-          <p class="muted">{i.text}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <section class="section container">
-    <div class="cols">
-      <div>
-        <div class="section-head"><h2>Posts</h2></div>
-        <PostList posts={posts} base="/variety/" warm empty="Nothing here yet." />
-      </div>
-      <aside>
-        <div class="section-head"><h2>On Bluesky</h2></div>
-        <BlueskyFeed limit={5} />
-      </aside>
-    </div>
-  </section>
-
-  <section class="section container">
-    <div class="section-head"><h2>Science videos</h2></div>
-    <div class="videos">
-      {videos.map((v) => (
-        <a class="video" href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener">
-          <div class="thumb">
-            <img src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`} alt="" loading="lazy" />
-            <span class="play" aria-hidden="true">▶</span>
-          </div>
-          <span class="mono muted">{v.year}</span>
-          <strong>{v.title}</strong>
-          <span class="muted role">{v.role}</span>
-        </a>
-      ))}
-    </div>
-  </section>
+  {items.length === 0 && <p class="muted">No posts yet.</p>}
+  <div class="feed">
+    {items.map(({ post, Content }) => (
+      <article>
+        <p class="muted small"><time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time></p>
+        <h3>{Content ? post.data.title : <a href={`/variety/${post.id}/`}>{post.data.title}</a>}</h3>
+        {Content ? <div class="prose"><Content /></div> : post.data.description && <p>{post.data.description}</p>}
+        {post.data.tags.length > 0 && <p class="pills">{post.data.tags.map((t) => <span class="tag">{t}</span>)}</p>}
+      </article>
+    ))}
+  </div>
 </Base>
 
 <style>
-  .page { padding-top: 56px; }
-  .lede { font-size: 1.15rem; max-width: 60ch; margin-bottom: 32px; }
-  .cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
-  .card { padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
-  .card h3 { margin: 10px 0 6px; font-size: 1.1rem; }
-  .card p { margin: 0; font-size: 0.92rem; }
-  .icon { font-size: 1.6rem; }
-
-  .cols { display: grid; gap: 48px; grid-template-columns: 1fr; }
-  @media (min-width: 900px) { .cols { grid-template-columns: 1.4fr 1fr; } }
-
-  .videos { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
-  .video { display: grid; gap: 4px; color: inherit; text-decoration: none; }
-  .thumb { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 16 / 9; background: var(--bg-soft); border: 1px solid var(--line); margin-bottom: 8px; }
-  .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
-  .video:hover .thumb img { transform: scale(1.04); }
-  .play {
-    position: absolute; inset: 0; margin: auto; width: 52px; height: 52px; border-radius: 50%;
-    display: grid; place-items: center; background: rgba(0, 0, 0, 0.6); color: #fff; font-size: 1.1rem;
-  }
-  .video .mono { font-size: 0.75rem; }
-  .role { font-size: 0.88rem; }
+  .feed article { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .feed h3 { margin: 0 0 6px; }
+  .feed .prose :global(p:last-child) { margin-bottom: 0.6em; }
 </style>

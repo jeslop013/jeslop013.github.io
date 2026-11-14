@@ -14,12 +14,10 @@ const raw = svgs[`../figures/${name}.svg`];
 <style>
   .fig {
     background: var(--fig-bg);
-    border-radius: 12px;
-    padding: 10px;
-    border: 1px solid var(--line);
+    padding: 6px;
   }
   .fig :global(svg) { width: 100%; height: auto; }
-  .fig img { width: 100%; height: auto; border-radius: 8px; }
+  .fig img { width: 100%; height: auto; }
   .fig :global(.fa) { fill: var(--accent); }
   .fig :global(.fa2) { fill: var(--accent-2); }
   .fig :global(.fa2-mid) { fill: var(--accent-2); opacity: 0.7; }

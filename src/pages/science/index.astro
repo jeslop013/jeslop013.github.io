@@ -2,24 +2,38 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PostList from '../../components/PostList.astro';
+import { langOf } from '../../data/lang';
 
 const posts = (await getCollection('science', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const en = posts.filter((p) => langOf(p.id) === 'en');
+const es = posts.filter((p) => langOf(p.id) === 'es');
 ---
 
-<Base title="Science" description="Notes, explainers and the stories behind papers: mobility, epidemics, cooperation and digital twins.">
-  <section class="container page">
-    <p class="eyebrow">Science</p>
-    <h1>Notes from the model</h1>
-    <p class="lede muted">
-      Explainers, the stories behind papers, and half-formed ideas about agent-based models, cities, epidemics,
-      cooperation and digital twins.
+<Base title="Science" description="Science notes in English and Spanish.">
+  <div class="head">
+    <h1>Science</h1>
+    <p class="pills lang-switch" role="group" aria-label="Language">
+      <a href="/science/" data-set="en">English</a>
+      <a href="/science/?lang=es" data-set="es">Español</a>
     </p>
-    <PostList posts={posts} base="/science/" empty="First post coming soon." />
-  </section>
+  </div>
+
+  <div data-lang="en"><PostList posts={en} base="/science/" /></div>
+  <div data-lang="es" hidden><PostList posts={es} base="/science/" empty="Todavía no hay entradas." /></div>
 </Base>
 
+<script is:inline>
+  (function () {
+    var lang = new URLSearchParams(location.search).get('lang') === 'es' ? 'es' : 'en';
+    document.querySelectorAll('[data-lang]').forEach(function (el) { el.hidden = el.dataset.lang !== lang; });
+    document.querySelectorAll('.lang-switch a').forEach(function (a) {
+      a.classList.toggle('on', a.dataset.set === lang);
+    });
+  })();
+</script>
+
 <style>
-  .page { padding-top: 56px; max-width: 860px; }
-  .lede { font-size: 1.15rem; max-width: 60ch; margin-bottom: 24px; }
+  .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .lang-switch :global(a.on) { background: var(--ink); color: var(--bg); }
 </style>

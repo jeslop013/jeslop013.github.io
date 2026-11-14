@@ -4,30 +4,30 @@
 
 export const SITE = {
   name: 'Jesús A. Moreno López',
-  shortName: 'Jesús Moreno',
+  shortName: 'Jesús A. Moreno López',
   role: 'Researcher at Fondazione Bruno Kessler',
-  tagline: 'Agent-based models of mobility, epidemics & cooperation.',
   description:
-    'Jesús A. Moreno López — physicist building data-driven agent-based models and digital twins of cities, epidemics and human–AI cooperation.',
-  location: 'Trento, Italy',
+    'Jesús A. Moreno López. Researcher at Fondazione Bruno Kessler. Interdisciplinary science and complexity.',
   photo: '/images/photo.png',
 
-  // Public contact. (Phone number and personal email are deliberately left out.)
-  email: 'jmorenolopez@fbk.eu',
+  // Contact address. It is NOT written into the HTML as plain text.
+  // The <Email /> component stores it in two reversed parts and builds the link
+  // in the browser, so most scraping bots do not find it.
+  // Set both to '' to remove email from the site.
+  emailUser: 'jmorenolopez',
+  emailDomain: 'fbk.eu',
 
-  // Leave empty ('') to hide. Once you have it, e.g. 'jesusmoreno.bsky.social'
-  bluesky: '',
+  // Leave empty ('') to hide. For example: 'jesusmoreno.bsky.social'
+  bluesky: 'jeslop013.bsky.social',
 
-  // Put a public PDF in /public/cv/ and write its path here to show a download button,
-  // e.g. '/cv/CV_Jesus_Moreno.pdf'. Left empty for now: your current PDFs contain your phone number.
+  // Path to a public PDF in /public/cv/, for example '/cv/CV_Jesus_Moreno.pdf'.
+  // Empty = no download link. Remove phone, birth date and personal email from the PDF first.
   cvPdf: '',
 
   links: [
     { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=0aDu28kAAAAJ' },
-    { label: 'MoST · FBK', href: 'https://most.fbk.eu/' },
+    { label: 'MoST (FBK)', href: 'https://most.fbk.eu/' },
     { label: 'Civic Digital Twins', href: 'https://github.com/fbk-most/civic-digital-twins' },
-    // { label: 'ORCID', href: 'https://orcid.org/0000-0000-0000-0000' },
-    // { label: 'GitHub', href: 'https://github.com/your-username' },
   ],
 };
 

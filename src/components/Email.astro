@@ -1,0 +1,25 @@
+---
+// Shows the contact email without writing it into the HTML as plain text.
+// The address is stored reversed in data attributes and assembled by a script.
+// Without JavaScript, the visitor sees "name [at] domain".
+import { SITE } from '../config';
+interface Props { label?: string; class?: string }
+const { label, class: cls } = Astro.props;
+const rev = (s: string) => s.split('').reverse().join('');
+const show = SITE.emailUser && SITE.emailDomain;
+---
+
+{show && (
+  <a class:list={['email', cls]} href="#" data-u={rev(SITE.emailUser)} data-d={rev(SITE.emailDomain)} data-label={label ?? ''}>
+    {label ?? `${SITE.emailUser} [at] ${SITE.emailDomain.replace('.', ' [dot] ')}`}
+  </a>
+)}
+
+<script is:inline>
+  document.querySelectorAll('a.email[data-u]').forEach(function (a) {
+    var r = function (s) { return s.split('').reverse().join(''); };
+    var addr = r(a.dataset.u) + '@' + r(a.dataset.d);
+    a.href = 'mai' + 'lto:' + addr;
+    if (!a.dataset.label) a.textContent = addr;
+  });
+</script>

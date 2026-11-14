@@ -4,133 +4,98 @@ import Base from '../layouts/Base.astro';
 import AgentField from '../components/AgentField.astro';
 import ProjectFigure from '../components/ProjectFigure.astro';
 import PostList from '../components/PostList.astro';
+import BlueskyFeed from '../components/BlueskyFeed.astro';
+import Email from '../components/Email.astro';
 import { SITE } from '../config';
-import { projects } from '../data/cv';
+import { themes, hobbies } from '../data/cv';
+import { langOf } from '../data/lang';
 
-const science = (await getCollection('science', ({ data }) => !data.draft))
+const science = (await getCollection('science', ({ id, data }) => !data.draft && langOf(id) === 'en'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
-
-const themes = ['mimos', 'critical-mobility', 'cooperation-ai', 'civic-digital-twins']
-  .map((id) => projects.find((p) => p.id === id)!)
-  .filter(Boolean);
 ---
 
 <Base>
-  <section class="hero container">
-    <div class="intro">
-      <p class="eyebrow">{SITE.role}</p>
+  <section class="intro">
+    <img src={SITE.photo} alt={`Portrait of ${SITE.name}`} width="160" height="200" />
+    <div>
       <h1>{SITE.name}</h1>
-      <p class="tagline">{SITE.tagline}</p>
-
-      <div class="bio">
-        <p>
-          I’m a physicist who builds <strong>data-driven agent-based models</strong> and <strong>digital twins</strong> of
-          socio-technical systems: cities, transport networks, epidemics, and groups of people (and AIs) deciding
-          whether to cooperate. I care a lot about quantifying how uncertain these models are, so that what comes out of
-          them can actually inform policy.
-        </p>
-        <p>
-          I’m currently a researcher at <a href="https://most.fbk.eu/">MoST, Fondazione Bruno Kessler</a>, working on
-          civic digital twins for air and noise pollution and for the city of Bologna. I did my PhD at <a href="https://ifisc.uib-csic.es/">IFISC (CSIC-UIB)</a>,
-          where I built MiMoS, an agent-based transport digital twin of Valladolid, to evaluate its low emission zone.
-          Before that: physics in Madrid, complex systems in Paris, and a COVID-19 contact-tracing model at INSERM.
-        </p>
-        <p class="muted">Off the clock: drums and percussion, padel, and making science videos.</p>
-      </div>
-
-      <div class="actions">
-        <a class="btn primary" href="/cv/">See my CV & projects →</a>
-        <a class="btn" href="/science/">Read the science notes</a>
-        <a class="btn" href={`mailto:${SITE.email}`}>Email</a>
-      </div>
-      <ul class="links">
-        {SITE.links.map((l) => <li><a href={l.href} target="_blank" rel="noopener">{l.label} ↗</a></li>)}
-        {SITE.bluesky && <li><a href={`https://bsky.app/profile/${SITE.bluesky}`}>Bluesky ↗</a></li>}
-      </ul>
-    </div>
-
-    <div class="portrait">
-      <img src={SITE.photo} alt={`Portrait of ${SITE.name}`} width="300" height="225" />
-      <p class="mono muted">{SITE.location}</p>
-    </div>
-  </section>
-
-  <section class="field-band">
-    <div class="container">
-      <div class="field-frame">
-        <AgentField />
-      </div>
-      <p class="mono muted caption">
-        A toy agent-based model running live in your browser: agents move along a network and pass on an infection
-        when they meet. It’s the smallest possible version of what I do.
+      <p class="muted">PhD. {SITE.role}.</p>
+      <p>
+        I model urban systems. I use sensitivity analysis and risk management to validate complex models and
+        simulations. I make the results usable for evidence-based policy-making.
+      </p>
+      <p>
+        Current work: complex-systems modeling and uncertainty analysis in the{' '}
+        <a href="https://github.com/fbk-most/civic-digital-twins">Civic Digital Twins</a> framework, agent-based
+        mobility simulators, and experiments on cooperative dilemmas with AI.
+      </p>
+      <p class="actions">
+        <a class="btn primary" href="/cv/">CV</a>
+        <Email label="Email" class="btn" />
+      </p>
+      <p class="pills">
+        {SITE.links.map((l) => <a href={l.href}>{l.label}</a>)}
       </p>
     </div>
   </section>
 
-  <section class="section container">
-    <div class="section-head">
-      <h2>What I work on</h2>
-      <a href="/cv/#projects">All projects →</a>
-    </div>
+  <section>
+    <div class="field"><AgentField /></div>
+    <p class="muted small caption">
+      A toy metro. Commuters travel between random stations. An infection spreads on trains and platforms (SIRS: immunity does not last).    </p>
+  </section>
+
+  <section>
+    <h2>Research themes</h2>
     <div class="themes">
-      {themes.map((p) => (
-        <a class="theme" href={`/cv/#${p.id}`}>
-          <ProjectFigure name={p.figure} />
-          <div>
-            <h3>{p.title}</h3>
-            <p class="muted">{p.subtitle}</p>
-          </div>
-        </a>
+      {themes.map((t) => (
+        <div class="card theme">
+          <ProjectFigure name={t.figure} />
+          <h3>{t.title}</h3>
+          <p>{t.text}</p>
+          <p class="pills">{t.links.map((l) => <a href={l.href}>{l.label}</a>)}</p>
+        </div>
       ))}
     </div>
   </section>
 
-  <section class="section container">
-    <div class="section-head">
-      <h2>Latest from Science</h2>
-      <a href="/science/">All posts →</a>
+  {science.length > 0 && (
+    <section>
+      <h2>Science</h2>
+      <PostList posts={science} base="/science/" />
+      <p class="small"><a href="/science/">All posts →</a></p>
+    </section>
+  )}
+
+  <section>
+    <h2>Bluesky</h2>
+    <BlueskyFeed limit={4} />
+  </section>
+
+  <section>
+    <h2>Outside work</h2>
+    <div class="cards">
+      {hobbies.map((h) => (
+        <div class="card">
+          <span class="icon" aria-hidden="true">{h.icon}</span>
+          <h3>{h.title}</h3>
+          <p>{h.text}</p>
+        </div>
+      ))}
     </div>
-    <PostList posts={science} base="/science/" />
   </section>
 </Base>
 
 <style>
-  .hero {
-    display: grid; gap: 40px; padding-top: 56px; padding-bottom: 40px;
-    grid-template-columns: 1fr;
-  }
-  @media (min-width: 880px) {
-    .hero { grid-template-columns: 1.6fr 1fr; align-items: start; padding-top: 80px; }
-  }
-  .tagline { font-family: var(--font-display); font-size: 1.35rem; font-style: italic; color: var(--muted); margin-bottom: 28px; }
-  .bio p { max-width: 62ch; }
-  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 28px 0 20px; }
-  .links { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 0.9rem; }
-  .portrait { justify-self: center; width: 100%; max-width: 340px; }
-  @media (max-width: 879px) { .portrait { max-width: 260px; order: -1; justify-self: start; } }
-  .portrait img {
-    width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 18% 60%;
-    border-radius: 20px; box-shadow: var(--shadow);
-    border: 1px solid var(--line);
-  }
-  .portrait p { font-size: 0.78rem; margin-top: 10px; text-align: center; }
-
-  .field-band { padding: 8px 0 32px; }
-  .field-frame {
-    height: clamp(260px, 34vw, 360px);
-    border: 1px solid var(--line); border-radius: 20px; overflow: hidden;
-    background: var(--bg-soft);
-  }
-  .caption { font-size: 0.78rem; margin-top: 10px; max-width: 70ch; }
-
-  .themes { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); }
-  .theme {
-    display: grid; gap: 14px; padding: 14px; border-radius: var(--radius);
-    border: 1px solid var(--line); background: var(--card); color: inherit; text-decoration: none;
-    transition: transform .15s, border-color .15s;
-  }
-  .theme:hover { transform: translateY(-3px); border-color: var(--accent); }
-  .theme h3 { margin: 0 0 4px; font-size: 1.15rem; }
-  .theme p { margin: 0; font-size: 0.88rem; }
+  .intro { display: grid; gap: 24px; grid-template-columns: 1fr; margin-top: 16px; }
+  @media (min-width: 640px) { .intro { grid-template-columns: 160px 1fr; } }
+  .intro img { width: 160px; aspect-ratio: 4 / 5; object-fit: cover; object-position: 18% 60%; border-radius: var(--radius); }
+  .intro h1 { margin-bottom: 0.2em; }
+  .actions { display: flex; gap: 8px; margin: 20px 0 12px; }
+  .field { margin-top: 32px; }
+  .caption { margin-top: 6px; }
+  .themes { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+  .theme .pills { margin-top: 10px; }
+  .icon { font-size: 1.4rem; }
 </style>
