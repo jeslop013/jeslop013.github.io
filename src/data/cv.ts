@@ -18,7 +18,10 @@ export const themes = [
     title: 'Urban mobility',
     text: 'Agent-based models of how people move in cities, and of the effect of transport policy.',
     figure: 'mimos',
-    links: [{ label: 'Next4Mob', href: '/cv/#next4mob' }],
+    links: [
+      { label: 'MiMoS code', href: 'https://github.com/jeslop013/MiMoS' },
+      { label: 'Next4Mob', href: '/cv/#next4mob' },
+    ],
   },
   {
     title: 'Epidemics',
